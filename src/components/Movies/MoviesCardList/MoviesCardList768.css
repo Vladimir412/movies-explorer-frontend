@@ -1,0 +1,21 @@
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+    .MoviesCardList-container {
+        /* margin-left: 30px;
+        margin-right: 30px; */
+        margin: auto;
+    }
+
+    .MoviesCardList-container {
+        grid-template-columns: repeat(2, 1fr);
+        /* grid-template-columns: repeat(2, 1fr); */
+        column-gap: 30px;
+        row-gap: 36px;
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .MoviesCardList-button {
+        margin-top: 72px;
+        margin-bottom: 80px;
+    }
+}

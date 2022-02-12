@@ -1,0 +1,120 @@
+.Register {
+    background-color: #202020;
+    color: #FFFFFF;
+    min-height: 741px;
+    margin: auto;
+    margin-top: 122px;
+}
+
+.Register-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 398px;
+    margin: auto;
+}
+
+.Register-logo {
+    margin: 0;
+    margin-top: 5px;
+    margin-left: 1px;
+}
+
+.Register-logo__img {
+    width: 38px;
+    height: 38px;
+}
+
+.Register-title {
+    margin-top: 35px;
+    text-align: start;
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    margin-bottom: 40px;
+
+}
+
+.Register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.Register-form__title {
+    text-align: start;
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #8B8B8B;
+    margin-bottom: 11px;
+}
+
+.Register-form__input {
+    min-height: 46px;
+    border-radius: 8px;
+    background-color: #2F2F2F;
+    color: #FFFFFF;
+    border: none;
+    outline: none;
+    /* margin-bottom: 19px; */
+    padding: 0;
+    padding-left: 17px;
+}
+
+.Register-form__title_margin-top {
+    margin-top: 19px;
+}
+
+.Register-form__error {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+    margin-top: 10px;
+}
+
+.Register-form__button {
+    min-height: 45px;
+    background-color: #4285F4;
+    color: #FFFFFF;
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    border-radius: 3px;
+    border: none;
+    margin-top: 69px;
+}
+
+.Register-form__button:hover {
+    cursor: pointer;
+}
+
+.Register-question {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #8B8B8B;
+    margin-top: 16px;
+}
+
+.Register-question__signin {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #4285F4;
+}

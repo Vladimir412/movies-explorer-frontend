@@ -1,0 +1,13 @@
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+    .TitleComponent {
+        /* margin-top: 80px; */
+        /* width: 100%; */
+        /* margin-left: 50px;
+        margin-right: 50px; */
+    }
+
+    .TitleComponent__techs {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+}

@@ -1,0 +1,42 @@
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .Techs {
+        width: 89%;
+        margin-top: 46px;
+        background: #202020;
+    }
+
+    .Techs-component {
+        border-top: solid 1px #000000;
+    }
+
+    .Techs-title {
+        margin-top: 61px;
+        font-size: 30px;
+        line-height: 36px;
+    }
+
+    .Techs-subtitle {
+        margin-top: 24px;
+        margin-bottom: 40px;
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .Techs-container {
+        flex-flow: row wrap;
+        width: 66.4%;
+    }
+
+    .Techs-technology {
+        width: 84px;
+        height: 57px;
+        margin-top: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .Techs-technology__title {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

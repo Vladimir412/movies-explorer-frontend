@@ -1,0 +1,16 @@
+.TitleComponent {
+    max-width: 1140px;
+    height: 49px;
+    margin: auto;
+}
+
+.TitleComponent__title {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+}

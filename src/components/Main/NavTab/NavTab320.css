@@ -1,0 +1,18 @@
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .NavTab {
+        width: 90%;
+        margin-top: 212px;
+        margin-bottom: 17px;
+    }
+
+    .NavTab-links {
+        width: 82px;
+        height: 26px;
+        border-radius: 6px;
+    }
+
+    .NavTab-link {
+        font-size: 10px;
+        line-height: 16px;
+    }
+}

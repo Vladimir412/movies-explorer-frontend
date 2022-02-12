@@ -1,0 +1,96 @@
+.AboutMe {
+    max-width: 1140px;
+    /* max-width: 1280px; */
+    margin: auto;
+    padding-top: 93px;
+    /* padding-left: 70px;
+    padding-right: 70px; */
+}
+
+.AboutMe-container {
+    max-width: 1140px;
+    margin: 0;
+    /* margin-left: 70px;
+    margin-right: 70px; */
+    /* margin-top: 66px; */
+    padding-top: 66px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top: solid 1px #DADADA;
+}
+
+.AboutMe-student {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    position: relative;
+}
+
+.AboutMe-student__name {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 50px;
+    line-height: 58px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.AboutMe-student__profession {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    color: #FFFFFF;
+    mix-blend-mode: normal;
+    margin-top: 19px;
+}
+
+.AboutMe-student__about {
+
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #FFFFFF;
+    mix-blend-mode: normal;
+    margin: 0;
+    margin-top: 7px;
+    /* height: 145px; */
+    max-height: 145px;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+
+}
+
+.AboutMe-student__links {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+    list-style-type: none;
+    width: 100%;
+    max-width: 130px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0;
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+}
+
+.AboutMe-photo {
+    max-width: 270px;
+    max-height: 327px;
+    border-radius: 10px;
+    justify-self: end;
+}

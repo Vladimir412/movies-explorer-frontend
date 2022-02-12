@@ -1,0 +1,14 @@
+@media screen and (min-width: 768px) and (max-width: 1280px) {
+
+    .Header {
+        width: 92.3%;
+    }
+
+    .Header-logo__movies {
+        margin-top: 18px;
+    }
+
+    .Navigation-control__a {
+        margin: 0;
+    }
+}
