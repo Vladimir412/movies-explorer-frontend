@@ -6,7 +6,7 @@ const Login = (props) => {
 
 
     return (
-        <div className='Login'>
+        <section className='Login'>
             <div className='Login-container'>
                 {props.aboutProject}
                 {/* <img className='Login-logo' src={logo} alt="Логотип" onClick={props.start}/> */}
@@ -28,7 +28,7 @@ const Login = (props) => {
                 </form>
             </div>
             <div className='Login-question'>Ещё не зарегистрированы? {props.signup}</div>
-        </div>
+        </section>
     )
 }
 

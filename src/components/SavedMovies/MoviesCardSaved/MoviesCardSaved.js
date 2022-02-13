@@ -7,7 +7,7 @@ const MoviesCardSaved = () => {
 
 
     return (
-        <div className="MoviesCardSaved">
+        <article className="MoviesCardSaved">
             <div className="MoviesCardSaved-info">
                 <div className="MoviesCardSaved-container">
                     <h2 className="MoviesCardSaved-info__title">33 слова о дизайне</h2>
@@ -18,7 +18,7 @@ const MoviesCardSaved = () => {
                 </div>
             </div>
             <img className="MoviesCardSaved-image" src={picture} alt='Фото фильма'></img>
-        </div>
+        </article>
     )
 }
 

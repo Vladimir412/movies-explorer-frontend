@@ -11,7 +11,7 @@ const MoviesCardList = () => {
 
 
     return (
-        <div className="MoviesCardList">
+        <section className="MoviesCardList">
             <div className='MoviesCardList-container'>
                 <div className="MoviesCard">
                     <div className="MoviesCard-info">
@@ -147,7 +147,7 @@ const MoviesCardList = () => {
                 </div> */}
             </div>    
                 <button className='MoviesCardList-button'>Ещё</button>
-        </div>
+        </section>
     )
 }
 

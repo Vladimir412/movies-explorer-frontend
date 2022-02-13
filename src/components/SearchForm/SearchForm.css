@@ -62,6 +62,8 @@
     background-color: #343434;
     border-radius: 10px;
     position: relative;
+    transition: all .05s linear;
+
 }
 
 .label__fake::after {

@@ -8,7 +8,7 @@ const MoviesCard = () => {
 
 
     return (
-        <div className="MoviesCard">
+        <article className="MoviesCard">
             <div className="MoviesCard-info">
                 <div className="MoviesCard-container">
                     <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
@@ -18,7 +18,7 @@ const MoviesCard = () => {
                 </button>
             </div>
             <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-        </div>
+        </article>
     )
 }
 

@@ -5,7 +5,7 @@ import './Profile320.css';
 const Profile = (props) => {
 
     return (
-        <div className="Profile">
+        <section className="Profile">
             <h1 className="Profile-title">Привет, Виталий!</h1>
             <div className="Profile-info">
                 <div className='Profile-info__container Profile-info__container_border'>
@@ -21,7 +21,7 @@ const Profile = (props) => {
                 <button type='button' className="Profile-buttons__button Profile-buttons__button_edit">Редактировать</button>
                 <button type='button' className="Profile-buttons__button Profile-buttons__button_exit-account">{props.exit}</button>
             </div>
-        </div>
+        </section>
     )
 }
 

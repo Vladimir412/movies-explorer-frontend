@@ -11,7 +11,7 @@ const MoviesCardListSaved = () => {
 
 
     return (
-        <div className="MoviesCardListSaved">
+        <section className="MoviesCardListSaved">
             <div className='MoviesCardListSaved-container'>
                 <div className="MoviesCard">
                         <div className="MoviesCard-info">
@@ -47,7 +47,7 @@ const MoviesCardListSaved = () => {
                         <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
                     </div> */}
             </div>
-        </div>
+        </section>
     )
 }
 

@@ -6,7 +6,7 @@ import Login from '../SetingsProfile/Login/Login';
 import Register from '../SetingsProfile/Register/Register';
 import Header from '../UseAllPage/Header/Header';
 import Profile from '../SetingsProfile/Profile/Profile';
-import SearchForm from '../Movies/SearchForm/SearchForm';
+import SearchForm from '../SearchForm/SearchForm';
 // import MoviesCard from '../SavedMovies/MoviesCard/MoviesCard';
 import MoviesCardListSaved from '../SavedMovies/MoviesCardListSaved/MoviesCardListSaved';
 import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';

@@ -6,9 +6,9 @@ const SearchForm = () => {
 
 
     return (
-        <div className="SearchForm">
+        <section className="SearchForm">
             <form className='SearchForm-form'>
-                <input className="SearchForm-form__input" type="text" placeholder="Фильм" />
+                <input className="SearchForm-form__input" type="text" placeholder="Фильм" mixLength="2" maxLength="100" required/>
                 <button className='SearchForm-form__button' type='submit'>Найти</button>
             </form>
             <label className="label">
@@ -16,7 +16,7 @@ const SearchForm = () => {
                 <span className="label__fake"></span>
                 <span className="label__name">Короткометражки</span>
             </label>
-        </div>
+        </section>
     )
 }
 

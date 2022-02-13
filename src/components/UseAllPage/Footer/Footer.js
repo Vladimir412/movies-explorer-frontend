@@ -6,7 +6,7 @@ const Footer = () => {
 
 
     return (
-        <div className="Footer">
+        <section className="Footer">
             <h2 className='Footer-title'>Учебный проект Яндекс.Практикум х BeatFilm.</h2>
             <div className='Footer-info'>
                 <p className='Footer-date'>
@@ -18,7 +18,7 @@ const Footer = () => {
                     <li className='Footer-link'><a href='https://ru-ru.facebook.com' target="_blank" rel="noreferrer">Facebook</a></li>
                 </ul>
             </div>
-        </div>
+        </section>
     )
 }
 

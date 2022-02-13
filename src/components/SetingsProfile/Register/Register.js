@@ -8,10 +8,9 @@ const Register = (props) => {
 
 
     return (
-        <div className='Register'>
+        <section className='Register'>
             <div className='Register-container'>
                 {props.aboutProject}
-                {/* <img className='Register-logo' src={logo} alt="Логотип" /> */}
                 <h1 className='Register-title'>Добро пожаловать!</h1>
                 <form className='Register-form'>
                     <label className='Register-form__title'>
@@ -35,7 +34,7 @@ const Register = (props) => {
                 </form>
             </div>
             <div className='Register-question'>Уже зарегистрированы? {props.signin}</div>
-        </div>
+        </section>
     )
 }
 
