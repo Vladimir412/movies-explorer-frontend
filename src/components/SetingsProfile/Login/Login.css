@@ -17,6 +17,13 @@
 .Login-logo {
     margin: 0;
     margin-top: 5px;
+    margin-right: auto;
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.Login-logo:hover {
+    opacity: .7;
 }
 
 .Login-logo__img {
@@ -62,7 +69,10 @@
     margin-bottom: 19px;
     padding: 0;
     padding-left: 17px;
+}
 
+.Login-form__input:focus {
+    box-shadow: 0 0 2px 3px rgba(66, 133, 244, .5);
 }
 
 .Login-form__button {
@@ -78,6 +88,13 @@
     border-radius: 3px;
     border: none;
     margin-top: 160px;
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.Login-form__button:hover {
+    cursor: pointer;
+    opacity: .7;
 }
 
 .Login-question {
@@ -99,4 +116,10 @@
     line-height: 17px;
     text-align: center;
     color: #4285F4;
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.Login-question__signin:hover {
+    opacity: .7;
 }

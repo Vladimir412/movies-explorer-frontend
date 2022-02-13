@@ -67,10 +67,13 @@
     font-size: 13px;
     line-height: 16px;
     text-align: center;
+    opacity: 1;
+    transition: all .2s linear;
 }
 
 .Profile-buttons__button:hover {
     cursor: pointer;
+    opacity: .7;
 }
 
 .Profile-buttons__button_edit {

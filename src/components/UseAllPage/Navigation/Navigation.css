@@ -18,6 +18,12 @@
     margin-left: 49px;
     width: fit-content;
     margin: 0;
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.Navigation-movies__movie:hover {
+    opacity: .7;
 }
 
 .Navigation-movies__saved {
@@ -31,6 +37,12 @@
     text-decoration: none;
     margin: 0;
     margin-left: 16px;
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.Navigation-movies__saved:hover {
+    opacity: .7;
 }
 
 .Navigation-movies_active {
@@ -55,6 +67,12 @@
     text-align: right;
     color: #FFFFFF;
     text-decoration: none;
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.Navigation-control__register:hover {
+    opacity: .7;
 }
 
 .Navigation-control_deactive {
@@ -70,6 +88,8 @@
     text-decoration: none;
     display: flex;
     justify-content: center;
+    opacity: 1;
+    transition: all .2s linear;
 }
 
 /* .Navigation-controln_deactive {
@@ -86,7 +106,12 @@
     align-items: center;
     color: #000000;
     text-decoration: none;
+    opacity: 1;
+    transition: all .2s linear;
+}
 
+.Navigation-control__text:hover {
+    opacity: .7;
 }
 
 .Navigation-control__account {
@@ -99,6 +124,12 @@
     margin: 0;
     margin-left: 83px;
     margin-top: 5px;
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.Navigation-control__account:hover {
+    opacity: .7;
 }
 
 .Navigation-control__sandwich {

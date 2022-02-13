@@ -26,6 +26,10 @@
     margin-top: 80px;
 }
 
+.SearchForm-form__input:focus {
+    box-shadow: 0 0 2px 3px rgba(66, 133, 244, .5);
+}
+
 .SearchForm-form__button {
     width: 100%;
     max-width: 70px;
@@ -37,10 +41,13 @@
     padding: 0;
     margin-left: 10px;
     margin-top: 81px;
+    opacity: 1;
+    transition: all .2s linear;
 }
 
 .SearchForm-form__button:hover {
     cursor: pointer;
+    opacity: .8;
 }
 
 .label {

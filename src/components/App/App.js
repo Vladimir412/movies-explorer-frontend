@@ -23,23 +23,6 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        {/* Для образца */}
-        <Route path="/popup"> 
-        <Header 
-            sandwich={<button className='Navigation-control__sandwich' type='button'></button>}
-            deactiveRegister={true}
-            deactiveLogin={true}
-          />
-          <SearchForm />
-          <MoviesCardList />
-          <Footer />
-          <Popup
-            aboutProject={<Link to="/" className='Popup-container__title'>Главная</Link>}
-            savedMovies={<Link to="/saved-movies" className='Popup-container__saved-movies'>Сохранённые фильмы</Link>}
-            movies={<Link to="/movies" className='Popup-container__movies'>Фильмы</Link>}
-            account={<Link to="/profile" className='Popup-container__account'></Link>}
-          />
-        </Route>
         <Route path='/signup'>
           < Register
             aboutProject={<Link to="/" className='Register-logo'><img className='Register-logo__img' src={logo} alt="Логотип"/></Link>}
@@ -65,6 +48,12 @@ function App() {
           <Profile
             exit={<Link to='/' className='Profile-buttons__button_exit-account'>Выйти из аккаунта</Link>}
           />
+          <Popup 
+            aboutProject={<Link to="/" className='popup-container__title'>Главная</Link>}
+            savedMovies={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
+            movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
+            account={<Link to="/profile" className='popup-container__account'></Link>}
+          />
         </Route>
         <Route path="/movies">
           <Header 
@@ -72,13 +61,19 @@ function App() {
             savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
             movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
             account={<Link to="/profile" className='Navigation-control__account'></Link>}
-            sandwich={<Link to="/Popup" className='Navigation-control__a'><button className='Navigation-control__sandwich' type='button'></button></Link>}//Это демо
+            sandwich={<button className='Navigation-control__sandwich' type='button'></button>}
             deactiveRegister={true}
             deactiveLogin={true}
           />
           <SearchForm />
           <MoviesCardList />
           <Footer />
+          <Popup 
+            aboutProject={<Link to="/" className='popup-container__title'>Главная</Link>}
+            savedMovies={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
+            movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
+            account={<Link to="/profile" className='popup-container__account'></Link>}
+          />
         </Route>
         <Route path="/saved-movies">
           <Header 
@@ -86,17 +81,23 @@ function App() {
             savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
             movies={<Link to="/movies" className='Navigation-movies__movie' activeClassName='Navigation-movies_active'>Фильмы</Link>}
             account={<Link to="/profile" className='Navigation-control__account' ></Link>}
-            sandwich={<button className='Navigation-control__sandwich' type='button'></button>}//будет работать как с директорией /movie. А пока как шаблон
+            sandwich={<button className='Navigation-control__sandwich' type='button'></button>}
             deactiveRegister={true}
             deactiveLogin={true}
           />
           <SearchForm />
           <MoviesCardListSaved />
           <Footer />
+          <Popup 
+            aboutProject={<Link to="/" className='popup-container__title'>Главная</Link>}
+            savedMovies={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
+            movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
+            account={<Link to="/profile" className='popup-container__account'></Link>}
+          />
         </Route>
         <Route exact path='/'>
           < Header 
-            aboutProject={<img className='Header-logo' src={logo} alt='Логотип' />}
+            aboutProject={<img className='Header-logo Header-logo_deactive' src={logo} alt='Логотип' />}
             register={<Link to="/signup" className='Navigation-control__register'>Регистрация</Link>}
             login={<NavLink to="/signin" className='Navigation-control__text'>Войти</NavLink>}
           />
@@ -114,7 +115,11 @@ function App() {
           <AboutMe
             student={"student"}
           />
-          < Portfolio />
+          < Portfolio
+            static={<a className="Portfolio-container__title" href='https://github.com/Vladimir412/how-to-learn' target="_blank" rel="noreferrer">Статичный сайт</a>}
+            adaptive={<a className="Portfolio-container__title" href='https://github.com/Vladimir412/russian-travel' target="_blank" rel="noreferrer">Адаптивный сайт</a>}
+            singleApp={<a className="Portfolio-container__title" href='https://github.com/Vladimir412/react-mesto-api-full' target="_blank" rel="noreferrer">Одностраничное приложение</a>}
+          />
           < Footer />
         </Route>
         <Route path='/error'>

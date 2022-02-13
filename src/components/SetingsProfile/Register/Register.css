@@ -18,6 +18,13 @@
     margin: 0;
     margin-top: 5px;
     margin-left: 1px;
+    margin-right: auto;
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.Register-logo:hover {
+    opacity: .7;
 }
 
 .Register-logo__img {
@@ -34,7 +41,6 @@
     font-size: 24px;
     line-height: 29px;
     margin-bottom: 40px;
-
 }
 
 .Register-form {
@@ -65,6 +71,10 @@
     padding-left: 17px;
 }
 
+.Register-form__input:focus {
+    box-shadow: 0 0 2px 3px rgba(66, 133, 244, .5);
+}
+
 .Register-form__title_margin-top {
     margin-top: 19px;
 }
@@ -92,10 +102,13 @@
     border-radius: 3px;
     border: none;
     margin-top: 69px;
+    opacity: 1;
+    transition: all .2s linear;
 }
 
 .Register-form__button:hover {
     cursor: pointer;
+    opacity: .7;
 }
 
 .Register-question {
@@ -117,4 +130,9 @@
     line-height: 17px;
     text-align: center;
     color: #4285F4;
+    opacity: 1;
+    transition: all .2s linear;
+}
+.Register-question__signin:hover {
+    opacity: .7;
 }

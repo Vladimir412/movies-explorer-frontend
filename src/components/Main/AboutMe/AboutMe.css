@@ -88,6 +88,15 @@
     margin: 0;
 }
 
+.AboutMe-student__link {
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.AboutMe-student__link:hover {
+    opacity: .7;
+}
+
 .AboutMe-photo {
     max-width: 270px;
     max-height: 327px;

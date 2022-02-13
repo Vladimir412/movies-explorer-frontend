@@ -14,7 +14,8 @@ const MoviesCard = () => {
                     <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
                     <h2 className="MoviesCard-info__duration">1ч 47м</h2>
                 </div>
-                <button className="MoviesCard-delete">
+                <button className="MoviesCard-add">
+                {/* <button className="MoviesCard-delete"> */}
                 </button>
             </div>
             <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>

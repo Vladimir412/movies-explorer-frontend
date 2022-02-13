@@ -43,6 +43,12 @@
     line-height: 50px;
     letter-spacing: -0.04em;
     margin: 0;
+    opacity: 1;
+    transition: all 0.2s linear;
+}
+
+.Portfolio-container__title:hover {
+    opacity: .7;
 }
 
 .Portfolio-container__logo {

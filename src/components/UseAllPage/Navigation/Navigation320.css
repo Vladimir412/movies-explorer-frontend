@@ -40,10 +40,13 @@
         margin-bottom: 5px;
         margin-right: 3px;
         border: 0;
+        opacity: 1;
+        transition: all .2s linear;
     }
 
     .Navigation-control__sandwich:hover {
         cursor: pointer;
+        opacity: .7;
     } 
 
     .Navigation-movies__saved {
