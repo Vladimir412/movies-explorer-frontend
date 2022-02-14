@@ -1,0 +1,16 @@
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+
+    .Promo {
+        width: 95%;
+        height: 834px;
+    }
+
+    .Promo-title {
+        /* max-width: 680px; */
+        width: 88%;
+        font-size: 40px;
+        line-height: 52px;
+        margin-top: 351px;
+    }
+
+}

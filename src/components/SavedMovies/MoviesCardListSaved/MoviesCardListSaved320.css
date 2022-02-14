@@ -1,0 +1,21 @@
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .MoviesCardListSaved {
+        height: fit-content;
+        margin-top: 54px;
+    }
+
+    .MoviesCardListSaved-container {
+        /* grid-template-columns: 300px; */
+        grid-template-columns: 100%;
+        row-gap: 16px;
+        margin: auto;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 209px;
+    }
+
+    .MoviesCardList-button {
+        width: 240px;
+        margin-bottom: 123px;
+    }
+}

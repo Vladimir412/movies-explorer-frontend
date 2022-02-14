@@ -1,0 +1,44 @@
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+    .AboutMe {
+        margin-top: 88px;
+        padding: 0;
+        width: 86.8%;
+    }
+
+    .AboutMe-container {
+        padding-top: 67px;
+        width: 100%;
+    }
+
+    .AboutMe-student {
+        max-width: 560px;
+    }
+
+    .AboutMe-student__name {
+        font-size: 40px;
+        line-height: 40px;
+    }
+
+    .AboutMe-student__profession {
+        margin-top: 15px;
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .AboutMe-student__about {
+        width: 100%;
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .AboutMe-student__links {
+        bottom: 4px;
+        left: 0;
+    }
+
+    .AboutMe-photo {
+        max-width: 255px;
+        height: 309px;
+        margin-left: 49px;
+    }
+}

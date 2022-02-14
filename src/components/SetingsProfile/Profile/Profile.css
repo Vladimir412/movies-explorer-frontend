@@ -1,0 +1,91 @@
+.Profile {
+    height: 626px;
+    width: 100%;
+    max-width: 410px;
+    margin: auto;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+}
+
+.Profile-title {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    margin-top: 74px;
+}
+
+.Profile-info {
+    margin-top: 95px;
+}
+
+.Profile-info__container {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px;
+    margin-bottom: 7px;
+}
+
+.Profile-info__container_border {
+    border-bottom: solid 1px #424242;
+    height: 42px;
+}
+
+.Profile-info__info {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+}
+
+.Profile-info__data {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: right;
+}
+
+.Profile-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 200px;
+}
+
+.Profile-buttons__button {
+    border: none;
+    background-color: #202020;
+    color: #FFFFFF;
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.Profile-buttons__button:hover {
+    cursor: pointer;
+    opacity: .7;
+}
+
+.Profile-buttons__button_edit {
+    margin-bottom: 14px;
+}
+
+.Profile-buttons__button_exit-account {
+    color: #EE3465;
+    text-decoration: none;
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+}

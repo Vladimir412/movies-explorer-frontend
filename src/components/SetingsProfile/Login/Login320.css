@@ -1,0 +1,39 @@
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .Login {
+        margin-top: 56px;
+        height: fit-content;
+    }
+
+    .Login-logo {
+        margin: auto;
+    }
+
+    .Login-title {
+        margin-top: 46px;
+        text-align: center;
+    }
+
+    .Login-form {
+        width: 81%;
+        margin: auto;
+        margin-top: 39px;
+    }
+
+    .Login-form__button {
+        margin-top: 248px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .Login-question {
+        font-size: 12px;
+        line-height: 15px;
+        margin-top: 14px;
+
+    }
+
+    .Login-question__signin {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

@@ -1,0 +1,39 @@
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .Register {
+        margin-top: 56px;
+        height: fit-content;
+    }
+
+    .Register-logo {
+        margin: auto;
+    }
+
+    .Register-title {
+        margin-top: 46px;
+        text-align: center;
+    }
+
+    .Register-form {
+        width: 81%;
+        margin: auto;
+        margin-top: 40px;
+    }
+
+    .Register-form__button {
+        margin-top: 156px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .Register-question {
+        font-size: 12px;
+        line-height: 15px;
+        margin-top: 14px;
+
+    }
+
+    .Register-question__signin {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

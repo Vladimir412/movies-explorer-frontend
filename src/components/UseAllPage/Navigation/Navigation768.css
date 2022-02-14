@@ -1,0 +1,34 @@
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+    .Navigation-control {
+        justify-content: end;
+    }
+    
+    .Navigation-control__account {
+        display: none;
+    }
+
+    .Navigation-control__sandwich {
+        display: block;
+        width: 44px;
+        height: 44px;
+        background-image: url(../../../images/logo/main-menu.svg);
+        background-color: #202020;
+        padding: 0;
+        border: 0;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .Navigation-control__sandwich:hover {
+        cursor: pointer;
+        opacity: .7;
+    } 
+
+    .Navigation-movies__saved {
+        display: none;
+    }
+
+    .Navigation-movies__movie {
+        display: none;
+    }
+}

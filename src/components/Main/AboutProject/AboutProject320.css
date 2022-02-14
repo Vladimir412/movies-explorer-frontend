@@ -1,0 +1,88 @@
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .AboutProject {
+        margin-top: 70px;
+        width: 89%;
+    }
+
+    .AboutProject-info {
+        grid-template-columns: 100%;
+        grid-template-rows: 4fr;
+        row-gap: 14px;
+        margin: auto;
+        /* margin-top: 18px; */
+        padding-top: 18px;
+        border-top: solid 1px #DADADA;
+        ;
+    }
+
+    .AboutProject-info__title {
+        max-width: 770px;
+        font-size: 18px;
+        line-height: 22px;
+        /* margin-left: 4px;
+        margin-right: auto; */
+        margin-top: 44px;
+        /* text-align: center; */
+    }
+
+    .AboutProject-info__title_first-row {
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+
+    .AboutProject-info__title_third-row {
+        grid-row-start: 3;
+        grid-row-end: 4;
+    }
+
+    .AboutProject-info__subtitle {
+        max-width: 770px;
+        font-size: 11px;
+        line-height: 16px;
+        /* text-align: center; */
+        /* margin-left: 4px;
+        margin-right: auto; */
+    }
+
+    .AboutProject-info__subtitle_second-row {
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+
+    .AboutProject-info__subtitle_fourth-row {
+        grid-row-start: 4;
+        grid-row-end: 4;
+    }
+
+    .AboutProject-plan {
+        margin-top: 61px;
+        grid-template-columns: 35% 65%;
+        grid-template-rows: repeat(2, 35px);
+    }
+    
+    .AboutProject-plan__first-week {
+        font-size: 11px;
+        line-height: 13px;
+        padding-top: 12px;
+    }
+
+    .AboutProject-plan__other-week {
+        font-size: 11px;
+        line-height: 13px;
+        padding-top: 12px;
+
+    }
+
+    .AboutProject-plan__front {
+        font-size: 11px;
+        line-height: 13px;
+        padding-top: 10px;
+
+    }
+
+    .AboutProject-plan__back {
+        font-size: 11px;
+        line-height: 13px;
+        padding-top: 10px;
+    }
+}

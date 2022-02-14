@@ -1,0 +1,32 @@
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+    .Techs {
+        /* margin-top: 88px; */
+        padding-top: 70px;
+        padding-left: 50px;
+        padding-right: 50px;
+        height: 497px;
+    }
+
+    .Techs-title {
+        margin-top: 80px;
+    }
+
+    .Techs-subtitle {
+        margin-top: 22px;
+        font-size: 12px;
+        line-height: 18px;
+        margin-bottom: 80px;
+    }
+
+    .Techs-container {
+        max-width: 648px;
+    }
+
+    .Techs-technology {
+        max-width: 84px;
+        height: 62px;
+        max-height: 57px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

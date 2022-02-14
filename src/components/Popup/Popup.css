@@ -1,0 +1,251 @@
+.popup {
+    display: none;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+    .popup {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 1;
+        background-color: rgba(0, 0, 0, .3); 
+        visibility: hidden;
+        z-index: 1;   
+    }
+
+    .popup__open {
+        display: block;
+        visibility: visible;
+    }
+
+    .popup-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 67.7%;
+        height: 100vh;
+        position: relative;
+        margin: auto;
+        margin-top: 0;
+        margin-right: 0;
+        /* background-color: black; */
+        background-color: #202020;
+        opacity: 1;
+    }
+
+    .popup-container__button-close {
+        padding: 0;
+        margin: auto;
+        margin-top: 21px;
+        margin-right: 24px;
+        margin-bottom: 98px;
+        width: 30px;
+        height: 30px;
+        border: 0;
+        background-image: url(../../images/logo/button-close.svg);
+        background-color: #202020;
+        background-size: fill;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .popup-container__button-close:hover {
+        cursor: pointer;
+        opacity: .7;
+    }
+
+    .popup-container__title {
+        color: #ffffff;
+        font-family: 'Inter', Arial, sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 0;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+    .popup-container__title:hover {
+        opacity: .7;
+    }
+
+    .popup-container__movies {
+        font-family: 'Inter', Arial, sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 28px;
+        /* line-height: 22px; */
+        text-align: center;
+        color: #FFFFFF;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        border-bottom: solid 2px #ffffff;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .popup-container__movies:hover {
+        opacity: .7;
+    }
+
+    .popup-container__saved-movies {
+        font-family: 'Inter', Arial, sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 28px;
+        text-align: center;
+        color: #FFFFFF;
+        margin-top: 10px;
+        margin-bottom: 0;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .popup-container__saved-movies:hover {
+        opacity: .7;
+    }
+
+    .popup-container__account {
+        width: 100px;
+        height: 32px;
+        background-image: url(../../images/logo/account.svg);
+        background-position: center;
+        margin-bottom: 88px;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .popup-container__account:hover {
+        opacity: .7;
+    }
+}
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .popup {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 1;
+        /* background-color: rgba(0, 0, 0, .3);  */
+        visibility: hidden;
+        z-index: 1;   
+    }
+
+    .popup__open {
+        visibility: visible;
+        display: block;
+    }
+
+    .popup-container {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        margin: auto;
+        margin-top: 0;
+        margin-right: 0;
+        background-color: #202020;
+        opacity: 1;
+    }
+
+    .popup-container__button-close {
+        padding: 0;
+        margin: auto;
+        margin-top: 13px;
+        margin-right: 16px;
+        margin-bottom: 98px;
+        width: 30px;
+        height: 30px;
+        border: 0;
+        background-image: url(../../images/logo/button-close.svg);
+        background-color: #202020;
+        background-size: fill;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .popup-container__button-close:hover {
+        cursor: pointer;
+        opacity: .7;
+    }
+
+    .popup-container__title {
+        color: #ffffff;
+        font-family: 'Inter', Arial, sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        text-align: center;
+        margin-top: 4px;
+        margin-bottom: 0;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .popup-container__title:hover {
+        opacity: .7;
+    }
+
+    .popup-container__movies {
+        font-family: 'Inter', Arial, sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 30px;
+        /* line-height: 22px; */
+        text-align: center;
+        color: #FFFFFF;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        border-bottom: solid 2px #ffffff;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .popup-container__movies:hover {
+        opacity: .7;
+    }
+
+    .popup-container__saved-movies {
+        font-family: 'Inter', Arial, sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 28px;
+        text-align: center;
+        color: #FFFFFF;
+        margin-top: 4px;
+        margin-bottom: 0;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .popup-container__saved-movies:hover {
+        opacity: .7;
+    }
+
+    .popup-container__account {
+        width: 100px;
+        height: 32px;
+        background-image: url(../../images/logo/account.svg);
+        background-position: center;
+        margin-bottom: 32px;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .popup-container__account:hover {
+        opacity: .7;
+    }
+}

@@ -1,0 +1,6 @@
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .TitleComponent__title {
+        font-size: 18px;
+        line-height: 22px;
+    }
+}

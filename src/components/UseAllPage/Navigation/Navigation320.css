@@ -1,0 +1,59 @@
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .Navigation-control__register {
+        font-size: 10px;
+        line-height: 16px;
+    }
+
+    .Navigation-control__login {
+        width: 54px;
+        height: 26px;
+        margin-left: 14px;
+    }
+
+    .Navigation-control__text {
+        font-size: 10px;
+        line-height: 16px;
+    }
+
+    .Navigation-control {
+        min-width: 132px;
+        justify-content: flex-end;
+    } 
+
+    .Navigation-control__account {
+        display: none;
+    }
+
+    .Navigation-control__a {
+        margin: 0;
+    }
+
+    .Navigation-control__sandwich {
+        display: block;
+        width: 33px;
+        height: 33px;
+        background-image: url(../../../images/logo/main-menu320.svg);
+        background-position: center;
+        background-color: #202020;
+        border: 0;
+        padding: 0;
+        margin-bottom: 5px;
+        margin-right: 3px;
+        border: 0;
+        opacity: 1;
+        transition: all .2s linear;
+    }
+
+    .Navigation-control__sandwich:hover {
+        cursor: pointer;
+        opacity: .7;
+    } 
+
+    .Navigation-movies__saved {
+        display: none;
+    }
+
+    .Navigation-movies__movie {
+        display: none;
+    }
+}

@@ -1,0 +1,33 @@
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .Profile {
+        height: fit-content;
+    }
+
+    .Profile-title {
+        margin-top: 68px;
+    }
+
+    .Profile-info {
+        width: 81.5%;
+        margin: auto;
+        margin-top: 54px;
+    }
+
+    .Profile-info__container {
+        margin-bottom: 5px;
+    }
+
+    .Profile-buttons {
+        margin-top: 362px;
+    }
+
+    .Profile-buttons__button_edit {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .Profile-buttons__button_exit-account {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
