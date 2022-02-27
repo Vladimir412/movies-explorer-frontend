@@ -25,6 +25,8 @@
     margin-top: 10px;
     margin-left: 13px;
     margin-bottom: 5px;
+    max-width: 280px;
+    /* text-overflow: ellipsis; */
 }
 
 .MoviesCard-info__duration {

@@ -1,152 +1,57 @@
 import './MoviesCardList.css';
 import './MoviesCardList768.css';
 import './MoviesCardList320.css';
-import '../MoviesCard/MoviesCard.css';
-import '../MoviesCard/MoviesCard768.css';
-import '../MoviesCard/MoviesCard320.css';
-import picture from '../../../images/pictureOne.jpg';
+// import '../MoviesCard/MoviesCard.css';
+// import '../MoviesCard/MoviesCard768.css';
+// import '../MoviesCard/MoviesCard320.css';
+import MoviesCard from '../MoviesCard/MoviesCard';
+import Preloader from '../../Preloader/Preloader';
+import { useState, useEffect } from 'react';
+
+const MoviesCardList = ({movieOnPage, messageMovies, isLoading, onHandleSetClick, onButtonElse, onAddSomeMovies, onLike, onHandleMovieLike}) => {
+
+    const infoMessage = (messageMovies === 'Ничего не найдено' ? 'MoviesCardList__message_active' : 'MoviesCardList__message')
+    const button = (onButtonElse === true ? 'MoviesCardList-button' : 'MoviesCardList-button_deactive')
+
+    const arrCards = movieOnPage.map(i => {
+        return (
+            <MoviesCard key={i.id} id={i.id} card={i} like={onLike} onHandleMovieLike={onHandleMovieLike}/>
+        )
+    })
+
+    const add = () => {
+
+        if (window.innerWidth >= 1280) {
+            onAddSomeMovies(3)
+        }
+          if (window.innerWidth >= 768 && window.innerWidth < 1280) {
+            onAddSomeMovies(2)
+        }
+          if (window.innerWidth >= 320 && window.innerWidth < 768) {
+            onAddSomeMovies(2)
+        }
+    }
 
 
-const MoviesCardList = () => {
-
+    // const arrCards = cards.map(i => {
+    //     console.log(i);
+    //     return (
+    //         <MoviesCard key={i.id} id={i.id} card={i} />
+    //     )
+    // })
 
     return (
         <section className="MoviesCardList">
             <div className='MoviesCardList-container'>
-                <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-add">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div>
-                <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-add">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div>
-                <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-add MoviesCard-add_active">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div>
-                <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-add">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div>
-                <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-add">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div>
-                {/* <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-delete">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div>
-                <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-delete">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div> */}
-                {/* <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-delete">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div>
-                <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-delete">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div>
-                <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-delete">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div>
-                <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-delete">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div>
-                <div className="MoviesCard">
-                    <div className="MoviesCard-info">
-                        <div className="MoviesCard-container">
-                            <h2 className="MoviesCard-info__title">33 слова о дизайне</h2>
-                            <h2 className="MoviesCard-info__duration">1ч 47м</h2>
-                        </div>
-                        <button className="MoviesCard-delete">
-                        </button>
-                    </div>
-                    <img className="MoviesCard-image" src={picture} alt='Фото фильма'></img>
-                </div> */}
+                <Preloader
+                    isLoading={isLoading}
+                />
+                <h2 className={infoMessage}>{messageMovies}</h2>
+                {/* {arr} */}
+                {arrCards}
+               
             </div>    
-                <button className='MoviesCardList-button'>Ещё</button>
+                <button className={button} onClick={add}>Ещё</button>
         </section>
     )
 }

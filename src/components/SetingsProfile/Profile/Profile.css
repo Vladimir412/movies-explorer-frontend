@@ -18,46 +18,70 @@
     margin-top: 74px;
 }
 
-.Profile-info {
+.Profile-form {
     margin-top: 95px;
-}
-
-.Profile-info__container {
     display: flex;
-    justify-content: space-between;
-    border-bottom: 1px;
-    margin-bottom: 7px;
+    flex-direction: column;
+    /* height: 120px; */
+    height: fit-content;
 }
 
-.Profile-info__container_border {
-    border-bottom: solid 1px #424242;
-    height: 42px;
+.Profile-form__container {
+    display: flex;
+    background-color: #202020;
+    margin-top: 10px;
 }
 
-.Profile-info__info {
+.Profile-form__container_margin-top {
+    border-top: solid 1px #424242;
+    margin-top: 14px;
+    padding-top: 18px;
+}
+
+.Profile-form__title {
+    width: 10%;
     font-family: 'Inter', Arial, sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 11px;
     line-height: 13px;
+    color: #FFFFFF;
+
 }
 
-.Profile-info__data {
+.Profile-form__input {
+    width: 85%;
+    margin-left: 10px;
+    margin-right: 0;
+    margin-left: auto;
+    background-color: #202020;
+    color: #FFFFFF;
+    border: 0;
     font-family: 'Inter', Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 11px;
     line-height: 13px;
     text-align: right;
+    outline: none;
 }
 
-.Profile-buttons {
-    display: flex;
-    flex-direction: column;
-    margin-top: 200px;
+.Profile-form__input-error {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+    margin-top: 10px;
 }
 
-.Profile-buttons__button {
+.Profile-form__input:focus {
+    box-shadow: 0 0 2px 3px rgba(66, 133, 244, .5);
+}
+
+.Profile-form__button {
+    margin-top: 217px;
     border: none;
     background-color: #202020;
     color: #FFFFFF;
@@ -71,21 +95,43 @@
     transition: all .2s linear;
 }
 
-.Profile-buttons__button:hover {
+.Profile-form__button:hover {
     cursor: pointer;
     opacity: .7;
 }
 
-.Profile-buttons__button_edit {
+.Profile-form__button_disabled {
+    color: #8B8B8B;
     margin-bottom: 14px;
 }
 
-.Profile-buttons__button_exit-account {
-    color: #EE3465;
+.Profile-form__button_disabled:hover {
+    cursor: default;
+    opacity: 1;
+}
+
+.Profile-button-exit-account {
+    background-color: #202020;
+    border: 0;
+    opacity: 1;
+    transition: all .2s linear;
+
+}
+
+.Profile-button-exit-account:hover {
+    cursor: pointer;
+    opacity: .7;
+}
+
+.Profile-button-exit-account_text {
     text-decoration: none;
     font-family: 'Inter', Arial, sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 13px;
     line-height: 16px;
+    color: #EE3465;
+    opacity: 1;
+    transition: all .2s linear;
+
 }

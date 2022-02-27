@@ -4,6 +4,12 @@
 
 @media screen and (min-width: 768px) and (max-width: 1279px) {
     .popup {
+        display: none;
+    }
+
+    .popup__open {
+        display: block;
+        visibility: visible;
         position: fixed;
         top: 0;
         right: 0;
@@ -11,13 +17,7 @@
         left: 0;
         opacity: 1;
         background-color: rgba(0, 0, 0, .3); 
-        visibility: hidden;
         z-index: 1;   
-    }
-
-    .popup__open {
-        display: block;
-        visibility: visible;
     }
 
     .popup-container {
@@ -127,20 +127,20 @@
 }
 @media screen and (min-width: 320px) and (max-width: 767px) {
     .popup {
+        display: none;
+    }
+
+    .popup__open {
+        display: block;
+        visibility: visible;
         position: fixed;
         top: 0;
         right: 0;
         bottom: 0;
         left: 0;
         opacity: 1;
-        /* background-color: rgba(0, 0, 0, .3);  */
-        visibility: hidden;
+        background-color: rgba(0, 0, 0, .3); 
         z-index: 1;   
-    }
-
-    .popup__open {
-        visibility: visible;
-        display: block;
     }
 
     .popup-container {

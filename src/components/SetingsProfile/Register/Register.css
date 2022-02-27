@@ -76,7 +76,7 @@
 }
 
 .Register-form__title_margin-top {
-    margin-top: 19px;
+    margin-top: 9px;
 }
 
 .Register-form__error {
@@ -101,7 +101,7 @@
     text-align: center;
     border-radius: 3px;
     border: none;
-    margin-top: 69px;
+    margin-top: 81px;
     opacity: 1;
     transition: all .2s linear;
 }
@@ -109,6 +109,26 @@
 .Register-form__button:hover {
     cursor: pointer;
     opacity: .7;
+}
+
+.Register-form__button_disabled {
+    min-height: 45px;
+    background-color: #8B8B8B;
+    color: #C2C2C2;
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    border-radius: 3px;
+    border: none;
+    margin-top: 81px;
+}
+
+.Register-form__button_disabled:hover {
+    cursor: default;
+    opacity: 1;
 }
 
 .Register-question {

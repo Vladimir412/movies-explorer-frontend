@@ -14,17 +14,13 @@ const Navigation = (props) => {
             </nav>
             <nav className='Navigation-control'>
                 <h2 className={deactiveRegisterive}>
-                {/* <h2 className='Navigation-control__register'> */}
                     {props.register}
                 </h2>
                 <div className={deactiveLogin}>
-                {/* <div className='Navigation-control__login'> */}
                     {props.login}
                 </div>
-                {/* <div className='Navigation-control__account'> */}
                     {props.account}
                     {props.sandwich}
-                {/* </div> */}
             </nav>
         </>
     )
