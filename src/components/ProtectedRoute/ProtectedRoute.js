@@ -1,4 +1,4 @@
-import { Route, Redirect } from "react-router-dom"
+import { Route, Redirect } from "react-router"
 
 
 export const ProtectedRoute = ({component: Component, ...props}) => {
@@ -9,3 +9,4 @@ export const ProtectedRoute = ({component: Component, ...props}) => {
         </Route>
     )
 }
+

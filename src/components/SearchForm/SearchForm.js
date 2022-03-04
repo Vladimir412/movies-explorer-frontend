@@ -10,6 +10,15 @@ const SearchForm = (props) => {
         setMovies(e.target.value)
     }
 
+    const [shortFilms, setShortFilms] = useState(false)
+    const handleSetShortFilms = () => {
+        if (shortFilms === false) {
+            setShortFilms(true)
+        } else {
+            setShortFilms(true)
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // props.onHandleSetClickSubmit(true)
@@ -25,7 +34,7 @@ const SearchForm = (props) => {
                 <button className='SearchForm-form__button' type='submit'>Найти</button>
             </form>
             <label className="label">
-                <input className="label__checkbox" type="checkbox" id="checkbox" />
+                <input className="label__checkbox" value={shortFilms} onChange={handleSetShortFilms} type="checkbox" id="checkbox" />
                 <span className="label__fake"></span>
                 <span className="label__name">Короткометражки</span>
             </label>

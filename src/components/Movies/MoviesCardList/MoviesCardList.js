@@ -8,14 +8,15 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../../Preloader/Preloader';
 import { useState, useEffect } from 'react';
 
-const MoviesCardList = ({movieOnPage, messageMovies, isLoading, onHandleSetClick, onButtonElse, onAddSomeMovies, onLike, onHandleMovieLike}) => {
+const MoviesCardList = ({movieOnPage, messageMovies, isLoading, onButtonElse, onAddSomeMovies, onHandleMovieLike, savedMovies}) => {
+    console.log(messageMovies);
 
     const infoMessage = (messageMovies === 'Ничего не найдено' ? 'MoviesCardList__message_active' : 'MoviesCardList__message')
     const button = (onButtonElse === true ? 'MoviesCardList-button' : 'MoviesCardList-button_deactive')
 
     const arrCards = movieOnPage.map(i => {
         return (
-            <MoviesCard key={i.id} id={i.id} card={i} like={onLike} onHandleMovieLike={onHandleMovieLike}/>
+            <MoviesCard key={i.id} id={i.id} card={i} savedMovies={savedMovies} movieOnPage={movieOnPage} onHandleMovieLike={onHandleMovieLike}/>
         )
     })
 

@@ -3,13 +3,12 @@ import './MoviesCardSaved.css';
 import picture from '../../../images/pictureOne.jpg';
 
 
-const MoviesCardSaved = (props) => {
-    console.log(props.card.image);
+const MoviesCardSaved = ({card, onHandleMovieDelete}) => {
 
-    const card = props.card
+    // const card = props.card
     const idForDelete = card._id
     // console.log(idForDelete);
-    // console.log(card);
+    console.log(card);
 
     const time = card.duration
     let hours;
@@ -24,8 +23,8 @@ const MoviesCardSaved = (props) => {
     // console.log(card);
 
 
-    const handleMovieDelete = (card) => {
-        props.onHandleMovieDelete(card)
+    const handleMovieDelete = () => {
+        onHandleMovieDelete(card)
     }
 
     return (
@@ -37,7 +36,7 @@ const MoviesCardSaved = (props) => {
                 </div>
                 <button className="MoviesCardSaved-delete" onClick={handleMovieDelete}></button>
             </div>
-            <img className="MoviesCardSaved-image" src={`https://api.nomoreparties.co/${card.image}`} alt='Фото фильма'></img>
+            <img className="MoviesCardSaved-image" src={card.image} alt='Фото фильма'></img>
         </article>
     )
 }

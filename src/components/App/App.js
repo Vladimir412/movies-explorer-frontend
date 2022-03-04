@@ -1,5 +1,4 @@
 import logo from '../../images/logo/logo.svg';
-// import { Route, Switch, Link, NavLink } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 
 import { Redirect, Route, Switch, useHistory, Link, NavLink } from 'react-router-dom'
@@ -75,7 +74,7 @@ const handleRegister = (name, email, password) => {
   // .then()
 }
 
-//аутентификация
+//авторизация
 const handleLogin = (email, password) => {
   console.log(email);
   console.log(password);
@@ -104,13 +103,12 @@ const [getTitleFilms, setGetTitleFilms] = useState('')
 
 //получение фильмов когда пользователь авторизован
 useEffect(() => {
-  setIsLoading(true)
   MovieasApi.getMovies()
   .then((data) => {
     setCards(data)
   })
-  .catch(setMessageMovies('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
-  .finally(() => setIsLoading(false))
+  .catch(err => console.log(err))
+  // .catch(setMessageMovies('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
 }, [isLoggedIn, middleMovies])
 
 
@@ -120,7 +118,7 @@ const [movieOnPage, setMovieOnPage] = useState([])
 //стостояние кнопки "еще"
 const [buttonElse, setButtonElse] = useState(false)
 
-//состояние кнопки еще
+//настройка кнопки еще
 const stateButtonElse = (quantity) => {
   if (middleMovies.length > movieOnPage.length) {
     setButtonElse(true)
@@ -142,15 +140,10 @@ const showMovie = (array, number) => {
     }
 }
 
-console.log(movieOnPage);
-
 //отфильтровываем фильмы по названию
 useEffect(() => {
-  const notFound = cards.filter(i => i.nameRU.includes(getTitleFilms))
-  console.log(notFound);
-  if (notFound.length === 0) {
-    setMessageMovies('Ничего не найдено')
-  }
+  setIsLoading(true)
+  setMessageMovies('')
   setMiddleMovies(cards.filter(item => {
     const { country, director, duration, year, description, thumbnail, nameRU, nameEN, id} = item
     const trailer = item.trailerLink
@@ -170,20 +163,22 @@ useEffect(() => {
         movieId: id,
         id,
         key: id,
-        // key: item.id,
-        // id: item.id,
-        // nameRU: item.nameRU,
-        // image: item.image.url,
-        // link: item.trailerLink,
-        // duration: item.duration,
       }
     }
   }))
+  return () => {
+    setIsLoading(false)
+  }
 }, [getTitleFilms])
+
+useEffect(() => {
+  if (movieOnPage.length === 0 && getTitleFilms.length > 0) {
+    setMessageMovies('Ничего не найдено')
+  }
+}, [movieOnPage])
 
 //отрисовка фильмов
 useEffect(() => {
-
   if (window.innerWidth >= 1280) {
       showMovie(middleMovies, 12)
   }
@@ -194,16 +189,12 @@ useEffect(() => {
       showMovie(middleMovies, 5)
   }
 
+
   return () => {
     setIsLoading(false)
   }
 
 }, [middleMovies])
-
-const [click, setClick] = useState(false)
-const handleSetClick = (e) => {
-    setClick(true)
-}
 
 const addSomeMovies = (step) => {
   const addElements = middleMovies.slice(movieOnPage.length, movieOnPage.length + step)
@@ -212,25 +203,19 @@ const addSomeMovies = (step) => {
   stateButtonElse(step)    
 }
 
-//состояние лайка
-const [like, setLike] = useState(false)
-
 //состояние сохраненных фильмов
 const [savedMovies, setSavedMovies] = useState([])
-console.log(savedMovies);
 
 //получаем данные о сохраненных фильмах
 useEffect(() => {
-  console.log(isLoggedIn);
-  console.log('gg');
   MainApi.getMovies()
   .then(movies => setSavedMovies(movies))
   .catch(err => console.log(err))
-}, [])
+}, [isLoggedIn])
 // console.log(savedMovies);
 
 const handleMovieLike = (card) => {
-  console.log(typeof card.image.url);
+  // console.log(card);
   const {
     country,
     director,
@@ -246,14 +231,35 @@ const handleMovieLike = (card) => {
   } = card;
   // const trailer = card.trailerLink
   // const image = card.image.url
-  const image = `https://api.nomoreparties.co/${card.image.url}`
+  const image = `https://api.nomoreparties.co/${card.image.url}`;
   MainApi.getMovies()
   .then(movies => {
-    const arr = movies.data
-    console.log(arr);
+    let arr = movies.data
+    if (arr.length === 0) {
+      MainApi.createMovie(
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailer,
+        thumbnail,
+        movieId,
+        nameRU,
+        nameEN,
+      )
+    }
     arr.forEach(i => {
-      if (i.id !== card.id) {
-        setLike(true)
+      if (i.movieId === card.id) {
+        console.log('qq');
+        MainApi.deleteMovie(i._id)
+        .then(res => setSavedMovies((savedMovie) => {
+          return savedMovie.map(j => j.movieId !== card.id)
+        }))
+      }
+      if (i.movieId !== card.id ) {
+        console.log('gg');
         MainApi.createMovie(
           country,
           director,
@@ -267,29 +273,21 @@ const handleMovieLike = (card) => {
           nameRU,
           nameEN,
         )
-      }
-      if (i.id === card.id) {
-        setLike(false)
-        MainApi.deleteMovie(card.id)
-        .then(res => console.log(res))
+        // .then(savedMovie => console.log(savedMovie.data))
+        .then(savedMovie => setSavedMovies([...savedMovies, savedMovie.data]))
       }
     })
   })
-  .then(savedMovie => setSavedMovies(...savedMovies, savedMovie))
+  // .then(savedMovie => console.log(savedMovie))
+  // .then(savedMovie => setSavedMovies(...savedMovies, savedMovie))
   .catch(err => console.log(err))
 }
+console.log(savedMovies);
 
-const [del, setDel] = useState(null)
-const handleSetDel = (card) => {
-  setDel(card)
-}
-
-const handleMovieDelete = () => {
-
-  console.log(del);
-  // console.log(card);
-  // MainApi.deleteMovie(id)
-  // .then(res => console.log(res))
+const handleMovieDelete = (card) => {
+  console.log(card);
+  MainApi.deleteMovie(card._id)
+  .then(res => console.log(res))
 }
 
  //состояние popup
@@ -361,6 +359,32 @@ const sandwichMenu = (isMenuOpen ? 'popup__open' : 'popup')
             account={<Link to="/profile" className='popup-container__account'></Link>}
           />
         </Route>
+          {/* // component={Header}
+          // component={MoviesCardList}
+          // component={Footer}
+          // aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
+          // savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
+          // movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
+          // account={<Link to="/profile" className='Navigation-control__account'></Link>}
+          // sandwich={<button className='Navigation-control__sandwich' onClick={handleSetIsMenuOpen} type='button'></button>}
+          // deactiveRegister={true}
+          // deactiveLogin={true}
+          // onSetGetTitleFilms={setGetTitleFilms}
+          // onHandleMovieLike={handleMovieLike}
+          //     onLike={like}
+          //     onAddSomeMovies= {addSomeMovies}
+          //     isLoading={isLoading}
+          //     messageMovies={messageMovies}
+          //     movieOnPage={movieOnPage}
+          //     onHandleSetClick={handleSetClick}
+          //     onButtonElse={buttonElse}
+          //     onClosePopup={closePopup}
+          //     sandwichMenu={sandwichMenu}
+          //     aboutProject={<Link to="/" className='popup-container__title'>Главная</Link>}
+          //     savedMovies={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
+          //     movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
+          //     account={<Link to="/profile" className='popup-container__account'></Link>}
+              // isLoggedIn={isLoggedIn} */}
         <Route path="/movies">
           <Header
             aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
@@ -376,14 +400,13 @@ const sandwichMenu = (isMenuOpen ? 'popup__open' : 'popup')
               onSetGetTitleFilms={setGetTitleFilms}
             />
             <MoviesCardList
+              savedMovies={savedMovies}
               onHandleMovieLike={handleMovieLike}
-              onLike={like}
               onAddSomeMovies= {addSomeMovies}
               isLoading={isLoading}
               // cards={cards}
               messageMovies={messageMovies}
               movieOnPage={movieOnPage}
-              onHandleSetClick={handleSetClick}
               onButtonElse={buttonElse}
             />
             <Footer />
@@ -408,7 +431,7 @@ const sandwichMenu = (isMenuOpen ? 'popup__open' : 'popup')
           />
           <SearchForm />
           <MoviesCardListSaved
-            onHandleMovieDelete={handleSetDel}
+            onHandleMovieDelete={handleMovieDelete}
             savedMovies={savedMovies}
           />
           <Footer />
