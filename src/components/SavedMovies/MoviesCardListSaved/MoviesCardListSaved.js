@@ -6,9 +6,12 @@ import MoviesCardSaved from "../MoviesCardSaved/MoviesCardSaved";
 import '../MoviesCardSaved/MoviesCardSaved.css';
 import picture from '../../../images/pictureOne.jpg';
 
-const MoviesCardListSaved = ({savedMovies, onHandleMovieDelete}) => {
+const MoviesCardListSaved = ({savedMoviesOnPage, onHandleMovieDelete}) => {
 
-    const arrCards = savedMovies.data.map(i => {
+    console.log(savedMoviesOnPage);
+    console.log(savedMoviesOnPage.data);
+
+    const arrCards = savedMoviesOnPage.data.map(i => {
         return (
             <MoviesCardSaved key={i.movieId} id={i.movieId} card={i} onHandleMovieDelete={onHandleMovieDelete}/>
         )

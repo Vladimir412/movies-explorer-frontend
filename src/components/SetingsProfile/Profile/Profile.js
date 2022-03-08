@@ -77,6 +77,7 @@ const Profile = (props) => {
             </form>
                 {/* <button type='submit' className={`Profile-buttons__button ${disabledButton}`} disabled={disabled}>Редактировать</button> */}
                 <button type='button' className="Profile-button-exit-account">{props.exit}</button>
+                {/* <button type='button' className="Profile-button-exit-account">Выйти из аккаунта</button> */}
         </section>
     )
 }

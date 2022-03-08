@@ -9,6 +9,7 @@ const Movies = (props) => {
     
 
     return (
+        <>
             <Header
                 aboutProject={props.aboutProject}
                 savedMovies={props.savedMovies}
@@ -18,7 +19,7 @@ const Movies = (props) => {
                 deactiveRegister={props.deactiveRegister}
                 deactiveLogin={props.deactiveLogin}
             />
-            /* <SearchForm 
+            <SearchForm 
                 onSetGetTitleFilms={props.onSetGetTitleFilms}
             />
             <MoviesCardList 
@@ -35,11 +36,12 @@ const Movies = (props) => {
             <Popup
                 onClosePopup={props.onClosePopup}
                 sandwichMenu={props.sandwichMenu}
-                aboutProject={props.aboutProject}
-                savedMovies={props.savedMovies}
-                movies={props.movies}
-                account={props.account}
-            /> */
+                aboutProject={props.aboutProjectPopup}
+                savedMovies={props.savedMoviesPopup}
+                movies={props.moviesPopup}
+                account={props.accountPopup}
+            />
+            </>
     )
 }
 

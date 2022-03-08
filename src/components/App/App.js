@@ -1,15 +1,15 @@
 import logo from '../../images/logo/logo.svg';
 import { useState, useEffect } from 'react';
 
-import { Redirect, Route, Switch, useHistory, Link, NavLink } from 'react-router-dom'
+import { Route, Switch, useHistory, Link, NavLink } from 'react-router-dom'
 import './App.css';
 import Login from '../SetingsProfile/Login/Login';
 import Register from '../SetingsProfile/Register/Register';
 import Header from '../UseAllPage/Header/Header';
-import Profile from '../SetingsProfile/Profile/Profile';
-import SearchForm from '../SearchForm/SearchForm';
-import MoviesCardListSaved from '../SavedMovies/MoviesCardListSaved/MoviesCardListSaved';
-import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
+// import Profile from '../SetingsProfile/Profile/Profile';
+// import SearchForm from '../SearchForm/SearchForm';
+// import MoviesCardListSaved from '../SavedMovies/MoviesCardListSaved/MoviesCardListSaved';
+// import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
 import Footer from '../UseAllPage/Footer/Footer';
 import Promo from '../Main/Promo/Promo';
 import AboutProject from '../Main/AboutProject/AboutProject';
@@ -17,11 +17,13 @@ import Techs from '../Main/Techs/Techs';
 import AboutMe from '../Main/AboutMe/AboutMe';
 import Portfolio from '../Main/Portfolio/Portfolio';
 import Error404 from '../Error404/Error404';
-import Popup from '../Popup/Popup';
+// import Popup from '../Popup/Popup';
 import * as MainApi from '../../utils/Main';
 import * as MovieasApi from '../../utils/MoviesApi';
 import {ProtectedRoute} from '../ProtectedRoute/ProtectedRoute';
 import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
+import ProfilePage from '../SetingsProfile/ProfilePage/ProfilePage';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function App() {
@@ -31,20 +33,12 @@ const [currentUser, setCurrentUser] = useState({})
 
 //состояние прелоадера
 const [isLoading, setIsLoading] = useState(false);
-const handleSetIsLoading = () => {
-  setIsLoading(true)
-}
 
 //состояние авторизация
 const [isLoggedIn, setIsLoggedIn] = useState(false)
 const handleIsLoggedIn = () => {
   setIsLoggedIn(true)
 }
-
-// const [clickSubmit, setClickSubmit] = useState(false)
-//     const handleSetClickSubmit = () => {
-//         setClickSubmit(true)
-//     }
 
 //проверка авторизации
 const tokenCheck = () => {
@@ -107,8 +101,9 @@ useEffect(() => {
   .then((data) => {
     setCards(data)
   })
-  .catch(err => console.log(err))
-  // .catch(setMessageMovies('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
+  .catch(() => {
+    setMessageMovies('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+  })
 }, [isLoggedIn, middleMovies])
 
 
@@ -196,6 +191,7 @@ useEffect(() => {
 
 }, [middleMovies])
 
+//добавление фильмов на нажатие кнопки "еще"
 const addSomeMovies = (step) => {
   const addElements = middleMovies.slice(movieOnPage.length, movieOnPage.length + step)
   const middle = [...movieOnPage, ...addElements]
@@ -212,10 +208,12 @@ useEffect(() => {
   .then(movies => setSavedMovies(movies))
   .catch(err => console.log(err))
 }, [isLoggedIn])
-// console.log(savedMovies);
+console.log(savedMovies);
+console.log(`Токен: ${isLoggedIn}`);
 
 const handleMovieLike = (card) => {
   // console.log(card);
+  let arr =[]
   const {
     country,
     director,
@@ -234,7 +232,8 @@ const handleMovieLike = (card) => {
   const image = `https://api.nomoreparties.co/${card.image.url}`;
   MainApi.getMovies()
   .then(movies => {
-    let arr = movies.data
+    console.log(movies);
+    arr = movies.data
     if (arr.length === 0) {
       MainApi.createMovie(
         country,
@@ -273,21 +272,36 @@ const handleMovieLike = (card) => {
           nameRU,
           nameEN,
         )
-        // .then(savedMovie => console.log(savedMovie.data))
-        .then(savedMovie => setSavedMovies([...savedMovies, savedMovie.data]))
+        .then(savedMovie => {
+          console.log(savedMovies.data)
+          console.log(savedMovies)
+          setSavedMovies([...savedMovies, savedMovie.data])
+        })
       }
     })
   })
-  // .then(savedMovie => console.log(savedMovie))
-  // .then(savedMovie => setSavedMovies(...savedMovies, savedMovie))
   .catch(err => console.log(err))
 }
-console.log(savedMovies);
 
+//получение сохраненных фильмов
+useEffect(() => {
+  MainApi.getMovies()
+  .then(movies => setSavedMovies(movies))
+  .catch(err => console.log(err))
+}, [isLoggedIn])
+// console.log(savedMovies);
+
+
+//удаление карточки находятсь на странице saved-movies
 const handleMovieDelete = (card) => {
   console.log(card);
+
   MainApi.deleteMovie(card._id)
-  .then(res => console.log(res))
+  .then(() => {
+    MainApi.getMovies()
+    .then(movies => setSavedMovies(movies))
+  })
+  .catch(err => console.log(err))
 }
 
  //состояние popup
@@ -318,6 +332,13 @@ useEffect(() => {
 //классы для состояния popup меню
 const sandwichMenu = (isMenuOpen ? 'popup__open' : 'popup')
 
+//выход из аккаунта
+const loginOut = () => {
+  localStorage.removeItem('jwt');
+  setIsLoggedIn(false);
+  history.push('/')
+}
+
 
   return (
     <div className="App">
@@ -337,113 +358,68 @@ const sandwichMenu = (isMenuOpen ? 'popup__open' : 'popup')
             signup={<Link to="/signup" className='Login-question__signin'>Регистрация</Link>}
           />
         </Route>
-        <Route path="/profile">
-          <Header 
-            aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
-            savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
-            movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
-            account={<Link to="/profile" className='Navigation-control__account'></Link>}
-            sandwich={<button className='Navigation-control__sandwich' type='button'></button>}
-            deactiveRegister={true}
-            deactiveLogin={true}
-          />
-          <Profile
-            exit={<Link to='/' className='Profile-button-exit-account_text'>Выйти из аккаунта</Link>}
-          />
-          <Popup 
-            sandwichMenu={sandwichMenu}
-            onClosePopup={closePopup}
-            aboutProject={<Link to="/" className='popup-container__title'>Главная</Link>}
-            savedMovies={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
-            movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
-            account={<Link to="/profile" className='popup-container__account'></Link>}
-          />
-        </Route>
-          {/* // component={Header}
-          // component={MoviesCardList}
-          // component={Footer}
-          // aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
-          // savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
-          // movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
-          // account={<Link to="/profile" className='Navigation-control__account'></Link>}
-          // sandwich={<button className='Navigation-control__sandwich' onClick={handleSetIsMenuOpen} type='button'></button>}
-          // deactiveRegister={true}
-          // deactiveLogin={true}
-          // onSetGetTitleFilms={setGetTitleFilms}
-          // onHandleMovieLike={handleMovieLike}
-          //     onLike={like}
-          //     onAddSomeMovies= {addSomeMovies}
-          //     isLoading={isLoading}
-          //     messageMovies={messageMovies}
-          //     movieOnPage={movieOnPage}
-          //     onHandleSetClick={handleSetClick}
-          //     onButtonElse={buttonElse}
-          //     onClosePopup={closePopup}
-          //     sandwichMenu={sandwichMenu}
-          //     aboutProject={<Link to="/" className='popup-container__title'>Главная</Link>}
-          //     savedMovies={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
-          //     movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
-          //     account={<Link to="/profile" className='popup-container__account'></Link>}
-              // isLoggedIn={isLoggedIn} */}
-        <Route path="/movies">
-          <Header
-            aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
-            savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
-            movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
-            account={<Link to="/profile" className='Navigation-control__account'></Link>}
-            sandwich={<button className='Navigation-control__sandwich' onClick={handleSetIsMenuOpen} type='button'></button>}
-            deactiveRegister={true}
-            deactiveLogin={true}
-            />
-            <SearchForm
-              // handleSetClick={handleSetClickSubmit}
-              onSetGetTitleFilms={setGetTitleFilms}
-            />
-            <MoviesCardList
-              savedMovies={savedMovies}
-              onHandleMovieLike={handleMovieLike}
-              onAddSomeMovies= {addSomeMovies}
-              isLoading={isLoading}
-              // cards={cards}
-              messageMovies={messageMovies}
-              movieOnPage={movieOnPage}
-              onButtonElse={buttonElse}
-            />
-            <Footer />
-            <Popup
-            onClosePopup={closePopup}
-            sandwichMenu={sandwichMenu}
-            aboutProject={<Link to="/" className='popup-container__title'>Главная</Link>}
-            savedMovies={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
-            movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
-            account={<Link to="/profile" className='popup-container__account'></Link>}
-            />
-        </Route>
-        <Route path="/saved-movies">
-          <Header 
-            aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
-            savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
-            movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
-            account={<Link to="/profile" className='Navigation-control__account' ></Link>}
-            sandwich={<button className='Navigation-control__sandwich' type='button' onClick={handleSetIsMenuOpen}></button>}
-            deactiveRegister={true}
-            deactiveLogin={true}
-          />
-          <SearchForm />
-          <MoviesCardListSaved
-            onHandleMovieDelete={handleMovieDelete}
-            savedMovies={savedMovies}
-          />
-          <Footer />
-          <Popup 
-            onClosePopup={closePopup}
-            sandwichMenu={sandwichMenu}
-            aboutProject={<Link to="/" className='popup-container__title'>Главная</Link>}
-            savedMovies={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
-            movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
-            account={<Link to="/profile" className='popup-container__account'></Link>}
-          />
-        </Route>
+        <ProtectedRoute path="/profile"
+          component={ProfilePage}
+          aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
+          savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
+          movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
+          account={<Link to="/profile" className='Navigation-control__account'></Link>}
+          sandwich={<button className='Navigation-control__sandwich' type='button'></button>}
+          deactiveRegister={true}
+          deactiveLogin={true}
+          exit={<Link to='/' onClick={loginOut} className='Profile-button-exit-account_text'>Выйти из аккаунта</Link>}
+          sandwichMenu={sandwichMenu}
+          onClosePopup={closePopup}
+          aboutProjectPopup={<Link to="/" className='popup-container__title'>Главная</Link>}
+          savedMoviesPopup={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
+          moviesPopup={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
+          accountPopup={<Link to="/profile" className='popup-container__account'></Link>}
+          isLoggedIn={isLoggedIn}
+
+        />
+        <ProtectedRoute path="/movies"
+          component={Movies}
+          aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
+          savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
+          movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
+          account={<Link to="/profile" className='Navigation-control__account'></Link>}
+          sandwich={<button className='Navigation-control__sandwich' onClick={handleSetIsMenuOpen} type='button'></button>}
+          deactiveRegister={true}
+          deactiveLogin={true}
+          onSetGetTitleFilms={setGetTitleFilms}
+          onHandleMovieLike={handleMovieLike}
+          onAddSomeMovies= {addSomeMovies}
+          isLoading={isLoading}
+          messageMovies={messageMovies}
+          movieOnPage={movieOnPage}
+          onButtonElse={buttonElse}
+          onClosePopup={closePopup}
+          sandwichMenu={sandwichMenu}
+          aboutProjectPopup={<Link to="/" className='popup-container__title'>Главная</Link>}
+          savedMoviesPopup={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
+          moviesPopup={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
+          accountPopup={<Link to="/profile" className='popup-container__account'></Link>}
+          isLoggedIn={isLoggedIn}
+              />
+        <ProtectedRoute path="/saved-movies"
+          component={SavedMovies}
+          aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
+          savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
+          movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
+          account={<Link to="/profile" className='Navigation-control__account' ></Link>}
+          sandwich={<button className='Navigation-control__sandwich' type='button' onClick={handleSetIsMenuOpen}></button>}
+          deactiveRegister={true}
+          deactiveLogin={true}
+          onHandleMovieDelete={handleMovieDelete}
+          savedMoviesOnPage={savedMovies}
+          onClosePopup={closePopup}
+          sandwichMenu={sandwichMenu}
+          aboutProjectPopup={<Link to="/" className='popup-container__title'>Главная</Link>}
+          savedMoviesPopup={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
+          moviesPopup={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
+          accountPopup={<Link to="/profile" className='popup-container__account'></Link>}
+          isLoggedIn={isLoggedIn}
+        />
         <Route exact path='/'>
           < Header 
             aboutProject={<img className='Header-logo Header-logo_deactive' src={logo} alt='Логотип' />}

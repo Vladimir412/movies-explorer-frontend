@@ -15,15 +15,15 @@ const MoviesCard = (props) => {
     //состояние лайка
     const [like, setLike] = useState(false)
 
-    useEffect(() => {
-        savedMovies.data.forEach(element => {
-            if (element.movieId === props.card.id) {
-                setLike(true)
-            } else {
-                setLike(false)
-            }
-        });
-    }, [savedMovies])
+    // useEffect(() => {
+    //     savedMovies.data.forEach(element => {
+    //         if (element.movieId === props.card.id) {
+    //             setLike(true)
+    //         } else {
+    //             setLike(false)
+    //         }
+    //     });
+    // }, [savedMovies])
 
     const time = props.card.duration
     let hours;

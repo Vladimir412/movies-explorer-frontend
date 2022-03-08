@@ -15,7 +15,7 @@ const SearchForm = (props) => {
         if (shortFilms === false) {
             setShortFilms(true)
         } else {
-            setShortFilms(true)
+            setShortFilms(false)
         }
     }
 

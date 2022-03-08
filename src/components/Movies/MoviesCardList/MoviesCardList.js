@@ -9,7 +9,6 @@ import Preloader from '../../Preloader/Preloader';
 import { useState, useEffect } from 'react';
 
 const MoviesCardList = ({movieOnPage, messageMovies, isLoading, onButtonElse, onAddSomeMovies, onHandleMovieLike, savedMovies}) => {
-    console.log(messageMovies);
 
     const infoMessage = (messageMovies === 'Ничего не найдено' ? 'MoviesCardList__message_active' : 'MoviesCardList__message')
     const button = (onButtonElse === true ? 'MoviesCardList-button' : 'MoviesCardList-button_deactive')
