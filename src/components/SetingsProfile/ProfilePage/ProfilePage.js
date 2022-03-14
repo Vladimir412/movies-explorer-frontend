@@ -13,20 +13,21 @@ const ProfilePage = (props) => {
                 movies={props.movies}
                 account={props.account}
                 sandwich={props.sandwich}
-                deactiveRegister={props.deactiveRegister}
-                deactiveLogin={props.deactiveLogin}
+                // deactiveRegister={props.deactiveRegister}
+                // deactiveLogin={props.deactiveLogin}
+                isLoggedIn={props.isLoggedIn}
             />
             <Profile 
                 exit={props.exit}
-
+                closePopup={props.closePopup}
             />
             <Popup 
                 sandwichMenu={props.sandwichMenu}
                 onClosePopup={props.onClosePopup}
-                aboutProjectPopup={props.aboutProjectPopup}
-                savedMoviesPopup={props.savedMoviesPopup}
-                moviesPopup={props.moviesPopup}
-                accountPopup={props.accountPopup}
+                aboutProject={props.aboutProjectPopup}
+                savedMovies={props.savedMoviesPopup}
+                movies={props.moviesPopup}
+                account={props.accountPopup}
             />
         </>
     )

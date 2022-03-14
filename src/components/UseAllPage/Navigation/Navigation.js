@@ -4,11 +4,24 @@ import './Navigation320.css';
 
 const Navigation = (props) => {
 
-    const deactiveRegisterive = (props.deactiveRegister ? 'Navigation-control_deactive' : 'Navigation-control__register')
-    const deactiveLogin = (props.deactiveLogin ? 'Navigation-control_deactive' : 'Navigation-control__login')
+    const statusCheck = (login, position) => {
+        if (login && position) {
+            return 'Navigation-movies Navigation-movies_position'
+        } else if (login) {
+            return 'Navigation-movies'
+        } else {
+            return 'Navigation-movies_deactive'
+        }
+    }
+
+    const deactiveRegisterive = (props.isLoggedIn ? 'Navigation-control_deactive' : 'Navigation-control__register')
+    const deactiveLogin = (props.isLoggedIn ? 'Navigation-control_deactive' : 'Navigation-control__login')
+    const stateMovies = statusCheck(props.isLoggedIn, props.position)
+    const stateAccount = (props.isLoggedIn ? 'Navigation-control__account_active' : 'Navigation-control__account_deactive')
 
     return (
-        <>  <nav className='Navigation-movies'>
+        <>  <nav className={stateMovies}>
+        {/* <>  <nav className='Navigation-movies'> */}
                 {props.movies}
                 {props.savedMovies}
             </nav>
@@ -19,8 +32,10 @@ const Navigation = (props) => {
                 <div className={deactiveLogin}>
                     {props.login}
                 </div>
+                <div className={stateAccount}>
                     {props.account}
                     {props.sandwich}
+                </div>
             </nav>
         </>
     )

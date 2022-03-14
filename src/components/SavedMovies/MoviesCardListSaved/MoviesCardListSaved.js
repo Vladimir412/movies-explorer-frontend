@@ -5,13 +5,18 @@ import MoviesCardSaved from "../MoviesCardSaved/MoviesCardSaved";
 // import delIcon from '../../../images/del-icon.png';
 import '../MoviesCardSaved/MoviesCardSaved.css';
 import picture from '../../../images/pictureOne.jpg';
+import { useEffect } from 'react';
 
-const MoviesCardListSaved = ({savedMoviesOnPage, onHandleMovieDelete}) => {
+const MoviesCardListSaved = ({savedMoviesOnPage, onHandleMovieDelete, closePopup}) => {
 
-    console.log(savedMoviesOnPage);
-    console.log(savedMoviesOnPage.data);
+    useEffect(() => {
+        closePopup()
+    }, [])
 
-    const arrCards = savedMoviesOnPage.data.map(i => {
+    // console.log(savedMoviesOnPage);
+    // console.log(savedMoviesOnPage.data);
+
+    const arrCards = (savedMoviesOnPage.data || savedMoviesOnPage).map(i => {
         return (
             <MoviesCardSaved key={i.movieId} id={i.movieId} card={i} onHandleMovieDelete={onHandleMovieDelete}/>
         )

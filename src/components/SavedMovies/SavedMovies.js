@@ -5,7 +5,6 @@ import Footer from "../UseAllPage/Footer/Footer";
 import Popup from "../Popup/Popup";
 
 const SavedMovies = (props) => {
-    console.log(props.savedMoviesOnPage);
 
     return (
         <>
@@ -17,11 +16,15 @@ const SavedMovies = (props) => {
                 sandwich={props.sandwich}
                 deactiveRegister={props.deactiveRegister}
                 deactiveLogin={props.deactiveLogin}
+                isLoggedIn={props.isLoggedIn}
             />
-            <SearchForm/>
+            <SearchForm
+                setGetTitleSavedFilms={props.setGetTitleSavedFilms}
+            />
             <MoviesCardListSaved
                 onHandleMovieDelete={props.onHandleMovieDelete}
                 savedMoviesOnPage={props.savedMoviesOnPage}
+                closePopup={props.closePopup}
             />
             <Footer />
             <Popup

@@ -6,6 +6,14 @@
     justify-content: flex-start;
 }
 
+.Navigation-movies_position {
+    justify-content: flex-end
+}
+
+.Navigation-movies_deactive {
+    display: none;
+}
+
 .Navigation-movies__movie {
     font-family: 'Inter', Arial, sans-serif;
     font-style: normal;
@@ -126,6 +134,14 @@
     margin-top: 5px;
     opacity: 1;
     transition: all .2s linear;
+}
+
+.Navigation-control__account_active {
+    display: block;
+}
+
+.Navigation-control__account_deactive {
+    display: none;
 }
 
 .Navigation-control__account:hover {

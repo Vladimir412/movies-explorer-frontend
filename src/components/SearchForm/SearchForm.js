@@ -18,11 +18,15 @@ const SearchForm = (props) => {
             setShortFilms(false)
         }
     }
+    // console.log(shortFilms);
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        // props.onHandleSetClickSubmit(true)
-        props.onSetGetTitleFilms(movies)
+        e.preventDefault(props.statePage);
+        // props.onSetGetTitleFilms(movies)
+        console.log();
+        props.statePage === 'movies' ? props.onSetGetTitleFilms(movies) && props.setResultShortsFilm(shortFilms) : props.setGetTitleSavedFilms(movies) && props.setResultShortsFilm(shortFilms) 
+        // props.setResultShortsFilm(shortFilms)
+        // props.setGetTitleSavedFilms(movies)
         setMovies('')
     }
 

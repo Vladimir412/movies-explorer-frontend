@@ -8,7 +8,7 @@ const MoviesCardSaved = ({card, onHandleMovieDelete}) => {
     // const card = props.card
     const idForDelete = card._id
     // console.log(idForDelete);
-    console.log(card);
+    // console.log(card);
 
     const time = card.duration
     let hours;

@@ -7,6 +7,8 @@ import Popup from "../Popup/Popup"
 
 const Movies = (props) => {
     
+    const statePage = 'movies'
+
 
     return (
         <>
@@ -18,19 +20,26 @@ const Movies = (props) => {
                 sandwich={props.sandwich}
                 deactiveRegister={props.deactiveRegister}
                 deactiveLogin={props.deactiveLogin}
+                isLoggedIn={props.isLoggedIn}
             />
             <SearchForm 
+                statePage={statePage}
+                setResultShortsFilm={props.setResultShortsFilm}
                 onSetGetTitleFilms={props.onSetGetTitleFilms}
             />
             <MoviesCardList 
+                middleMovies={props.middleMovies}
+                like={props.like}
                 onHandleMovieLike={props.onHandleMovieLike}
                 onLike={props.onLike}
                 onAddSomeMovies={props.onAddSomeMovies}
                 isLoading={props.isLoading}
                 messageMovies={props.messageMovies}
                 movieOnPage={props.movieOnPage}
+                savedMovies={props.savedMoviesOnPage}
                 onHandleSetClick={props.onHandleSetClick}
                 onButtonElse={props.onButtonElse}
+                closePopup={props.closePopup}
             />
             <Footer />
             <Popup

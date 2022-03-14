@@ -74,6 +74,7 @@
     line-height: 12px;
     color: #EE3465;
     margin-top: 10px;
+    text-align: right
 }
 
 .Profile-form__input:focus {
@@ -93,6 +94,8 @@
     text-align: center;
     opacity: 1;
     transition: all .2s linear;
+    margin-bottom: 14px;
+
 }
 
 .Profile-form__button:hover {
@@ -102,7 +105,6 @@
 
 .Profile-form__button_disabled {
     color: #8B8B8B;
-    margin-bottom: 14px;
 }
 
 .Profile-form__button_disabled:hover {

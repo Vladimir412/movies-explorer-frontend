@@ -8,6 +8,10 @@ const Profile = (props) => {
 
     const currentUser = useContext(CurrentUserContext)
 
+    useEffect(() => {
+        props.closePopup()
+    }, [])
+
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [firstStateName, setFirstStateName] =useState('')
@@ -66,13 +70,16 @@ const Profile = (props) => {
                 <label className='Profile-form__container'>
                     <label className='Profile-form__title'>Имя</label>
                     <input className='Profile-form__input' value={name} onChange={handleSetName} type="name" minLength="1" maxLength="30" required/>
-                    <span className='Profile-form__input-error'>{errorName}</span>
+                    {/* <span className='Profile-form__input-error'>{errorName}</span> */}
                 </label>
+                <span className='Profile-form__input-error'>{errorName}</span>
                 <label className='Profile-form__container Profile-form__container_margin-top'>
                     <label className='Profile-form__title'>E-mail</label>
                     <input className='Profile-form__input' value={email} onChange={handleSetEmail} type="email" required/>
-                    <span className='Profile-form__input-error'>{errorEmail}</span>
+                    {/* <span className='Profile-form__input-error'>{errorEmail}</span> */}
                 </label>
+                <span className='Profile-form__input-error'>{errorEmail}</span>
+
                 <button type='submit' className={`Profile-form__button ${disabledButton}`} disabled={disabled}>Редактировать</button>
             </form>
                 {/* <button type='submit' className={`Profile-buttons__button ${disabledButton}`} disabled={disabled}>Редактировать</button> */}

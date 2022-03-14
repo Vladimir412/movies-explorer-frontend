@@ -5,26 +5,9 @@ import { useEffect, useState } from 'react';
 
 
 const MoviesCard = (props) => {
-    
-    const savedMovies = props.savedMovies
-    const movieOnPage = props.movieOnPage
+    // console.log(props.card);
 
-    // console.log(savedMovies);
-    // console.log(movieOnPage);
-
-    //состояние лайка
-    const [like, setLike] = useState(false)
-
-    // useEffect(() => {
-    //     savedMovies.data.forEach(element => {
-    //         if (element.movieId === props.card.id) {
-    //             setLike(true)
-    //         } else {
-    //             setLike(false)
-    //         }
-    //     });
-    // }, [savedMovies])
-
+    //настраиваем время фильма
     const time = props.card.duration
     let hours;
     let minutes;
@@ -36,13 +19,10 @@ const MoviesCard = (props) => {
 
     const duration = movieTime(time)
 
-    const isLike = (like === true ? 'MoviesCard-add MoviesCard-add_active' : 'MoviesCard-add')
+    const isLike = (props.card.like === true ? 'MoviesCard-add MoviesCard-add_active' : 'MoviesCard-add')
 
     const handleMovieLike = () => {
-        console.log('zz');
         props.onHandleMovieLike(props.card)
-        // console.log(props.like);
-
     }
 
     return (

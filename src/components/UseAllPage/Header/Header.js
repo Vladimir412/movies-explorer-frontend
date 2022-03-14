@@ -13,6 +13,8 @@ const Header = (props) => {
         <section className='Header'>
             {props.aboutProject}
             < Navigation
+                position={props.position}
+                isLoggedIn={props.isLoggedIn}
                 movies={props.movies}
                 savedMovies={props.savedMovies}
                 register={props.register}
