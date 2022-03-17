@@ -50,6 +50,17 @@
     opacity: .8;
 }
 
+.SearchForm-form__input-error {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+    margin-top: 10px;
+    text-align: center
+}
+
 .label {
     margin: auto;
     margin-top: 30px;

@@ -8,8 +8,12 @@ export const signin = (email, password) => {
         },
         body: JSON.stringify({email, password})
     })
-    .then(checkResponse)
-    .then(data => data)
+    .then(res => res.ok? res.json() : Promise.reject(res.json()))
+    .then((data) => {
+       return data
+    },
+    (err) => 'Неверный email или пароль!'
+    )
 }
 
 export const signup = (name, email, password) => {
@@ -20,8 +24,12 @@ export const signup = (name, email, password) => {
         },
         body: JSON.stringify({name, email, password}),
     })
-    .then(checkResponse)
-    .then(data => data)
+    .then(res => res.ok? res.json() : Promise.reject(res.json()))
+    .then(data => {
+        return data
+    },
+    (err) => 'Переданный email уже используется другим пользователем!'
+    )
 }
 
 export const getInfoAboutUser = () => {
@@ -30,6 +38,19 @@ export const getInfoAboutUser = () => {
             authorization: `Bearer ${localStorage.getItem('jwt')}`,
             "Content-Type": "application/json",
         },
+    })
+    .then(checkResponse)
+    .then(data => data)
+}
+
+export const editInfoAboutUser = (name, email) => {
+    return fetch(`${url}/users/me`, {
+        method: 'PATCH',
+        headers: {
+            authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({name, email}),
     })
     .then(checkResponse)
     .then(data => data)

@@ -71,7 +71,7 @@ const Register = (props) => {
                     <label className='Register-form__title'>
                         Имя
                     </label>
-                    <input className='Register-form__input' value={name} onChange={handleSetName} minLength="8" required></input>
+                    <input className='Register-form__input' value={name} onChange={handleSetName} minLength="2" required></input>
                     <span className='Register-form__error' >{errorName}</span>
                     <label className='Register-form__title Register-form__title_margin-top'>
                         E-mail
@@ -83,6 +83,7 @@ const Register = (props) => {
                     </label>
                     <input className='Register-form__input' type="password" value={password} onChange={handleSetPassword} minLength="8" required></input>
                     <span className='Register-form__error'>{errorPassword}</span>
+                    <span className='Register-form_error-server'>{props.messageErrorRegister}</span>
                     <button className={buttonSignUp} type='submit' disabled={disabled}>
                         Зарегистрироваться
                     </button>

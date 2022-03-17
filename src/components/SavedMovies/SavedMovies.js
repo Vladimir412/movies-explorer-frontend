@@ -6,6 +6,8 @@ import Popup from "../Popup/Popup";
 
 const SavedMovies = (props) => {
 
+    const statePage = 'saved-movies'
+
     return (
         <>
             <Header
@@ -19,9 +21,13 @@ const SavedMovies = (props) => {
                 isLoggedIn={props.isLoggedIn}
             />
             <SearchForm
+                statePage={statePage}
+                setResultShortsSavedFilm={props.setResultShortsSavedFilm}
                 setGetTitleSavedFilms={props.setGetTitleSavedFilms}
             />
             <MoviesCardListSaved
+                messageSavedMovies={props.messageSavedMovies}
+                middleSavedMovies={props.middleSavedMovies}
                 onHandleMovieDelete={props.onHandleMovieDelete}
                 savedMoviesOnPage={props.savedMoviesOnPage}
                 closePopup={props.closePopup}

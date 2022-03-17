@@ -58,27 +58,48 @@ useEffect(() => {
   }
 }, [isLoggedIn])
 
+//редактирование профиля
+const refreshInfoAboutUser = (name, email) => {
+  MainApi.editInfoAboutUser(name, email)
+  .then((data) => setCurrentUser(data))
+  .catch(err => console.log(err))
+}
+
+const [messageErrorRegister, setMessageErrorRegister] = useState('')
+
 //регистрация пользователя
 const handleRegister = (name, email, password) => {
-  console.log(name);
-  console.log(email);
-  console.log(password);
-  // MainApi.signup(name, email, password)
-  // .then()
+  setMessageErrorRegister('')
+  MainApi.signup(name, email, password)
+  .then(data => {
+    if (data === 'Переданный email уже используется другим пользователем!') {
+      return setMessageErrorRegister(data)
+    }
+    MainApi.signin(data.email, password)
+    .then(res => {
+      localStorage.setItem('jwt', res.token)
+      handleIsLoggedIn(true)
+      history.push('/movies')
+    })
+  })
+  .catch(err => console.log(err))
 }
+
+const [messageErrorLogin, setMessageErrorLogin] = useState('')
 
 //авторизация
 const handleLogin = (email, password) => {
-  console.log(email);
-  console.log(password);
+  setMessageErrorLogin('')
   MainApi.signin(email, password)
   .then(res => {
-    localStorage.setItem('jwt', res.token)
-    handleIsLoggedIn(true)
-    history.push('/movies')
+    if (res === 'Неверный email или пароль!') {
+      return setMessageErrorLogin(res)
+    }
+      localStorage.setItem('jwt', res.token)
+      handleIsLoggedIn(true)
+      history.push('/movies')
   })
-
-  .catch(err => console.log(err))
+  .catch(err => err)
 }
 
 //массив всех фильмов
@@ -119,6 +140,7 @@ const [movieOnPage, setMovieOnPage] = useState([])
 //стостояние кнопки "еще"
 const [buttonElse, setButtonElse] = useState(false)
 
+//состояние для отрисовки лайков при нажатие на кнопку еще
 const [fakemovies, setFakeMovies] = useState([])
 
 //настройка кнопки еще
@@ -142,10 +164,9 @@ const showMovie = (array, number) => {
       setMovieOnPage(array)
     }
 }
-// console.log(resultShortsFilm);
 
 const searhFilm = (films) => {
-  return films.filter(i => {
+   return films.filter(i => {
     const { country, director, duration, year, description, thumbnail, nameRU, nameEN, id} = i
     const trailer = i.trailerLink
     const image = i.image.url
@@ -165,7 +186,6 @@ const filterShortFilms = (films) => {
 //отфильтровываем фильмы по названию
 useEffect(() => {
   if (getTitleFilms !== '') {
-  console.log(getTitleFilms);
   setIsLoading(true)
   setMessageMovies('')
   if (resultShortsFilm) {
@@ -224,6 +244,10 @@ const [middleSavedMovies, setMiddleSavedMovies] = useState([])
 
 const [getTitleSavedFilms, setGetTitleSavedFilms] = useState('')
 
+const [resultShortsSavedFilm, setResultShortsSavedFilm] = useState(false)
+
+const [messageSavedMovies, setMessageSavedMovies] = useState('')
+
 //получение сохраненных фильмов
 useEffect(() => {
   if (localStorage.getItem('jwt')) {
@@ -235,8 +259,26 @@ useEffect(() => {
 
 useEffect(() => {
   if (getTitleSavedFilms !== '') {
-  console.log(getTitleSavedFilms);
-}}, [getTitleSavedFilms])
+    setMessageSavedMovies('')
+    if (resultShortsSavedFilm) {
+      return setMiddleSavedMovies(searhFilm(savedMovies.data))
+    }
+    setMiddleSavedMovies(savedMovies.data.filter(i => {
+        if (i.nameRU.includes(getTitleSavedFilms)) {
+          const { country, director, duration, year, description, thumbnail, nameRU, nameEN, id} = i
+          const trailer = i.trailerLink
+          const image = i.image.url
+          return { country, director, duration, year, description, image, trailer, thumbnail, nameRU, nameEN, movieId: id, id, key: id } 
+        }
+      })
+    )
+}}, [getTitleSavedFilms, resultShortsSavedFilm])
+
+useEffect(() => {
+  if (middleSavedMovies.length === 0 && getTitleSavedFilms.length > 0) {
+    setMessageSavedMovies('Ничего не найдено')
+  }
+}, [middleSavedMovies])
 
 //добовление удаление фильма со страницы movies
 const handleMovieLike = (card) => {
@@ -270,6 +312,7 @@ const handleMovieLike = (card) => {
     }
 }
 
+//отрисовка лайков
 const likeForFilms = () => {
   if (savedMovies.length !== 0) {
     (savedMovies.data || savedMovies).forEach(i => {
@@ -280,7 +323,7 @@ const likeForFilms = () => {
   }
 }
 
-//отрисовка лайков
+//эффект отрисовка лайков
 useEffect(() => {
   likeForFilms()
 }, [savedMovies, middleMovies, buttonElse, fakemovies])
@@ -290,14 +333,13 @@ const handleMovieDelete = (card) => {
   MainApi.deleteMovie(card._id)
   .then(() => {
     setSavedMovies((savedMovies) => {
-      console.log(savedMovies);
       return (savedMovies.data || savedMovies).filter(i => i._id !== card._id)
     })
   })
   .catch(err => console.log(err))
 }
 
- //состояние popup
+//состояние popup
 const [isMenuOpen, setIsMenuOpen] = useState(false)
 const handleSetIsMenuOpen = () => {
   setIsMenuOpen(true)
@@ -340,6 +382,7 @@ const loginOut = () => {
       <Switch>
         <Route path='/signup'>
           < Register
+            messageErrorRegister={messageErrorRegister}
             onHandleRegister={handleRegister}
             aboutProject={<Link to="/" className='Register-logo'><img className='Register-logo__img' src={logo} alt="Логотип"/></Link>}
             signin={<Link to="/signin" className='Register-question__signin'>Войти</Link>}
@@ -347,6 +390,7 @@ const loginOut = () => {
         </Route>
         <Route path='/signin'>
           < Login 
+            messageErrorLogin={messageErrorLogin}
             onHandleLogin={handleLogin}
             aboutProject={<Link to="/" className='Login-logo'><img className='Login-logo' src={logo} alt="Логотип"/></Link>}
             signup={<Link to="/signup" className='Login-question__signin'>Регистрация</Link>}
@@ -354,6 +398,7 @@ const loginOut = () => {
         </Route>
         <ProtectedRoute path="/profile"
           component={ProfilePage}
+          onRefreshInfoAboutUser={refreshInfoAboutUser}
           aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
           savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
           movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
@@ -402,6 +447,9 @@ const loginOut = () => {
               />
         <ProtectedRoute path="/saved-movies"
           component={SavedMovies}
+          messageSavedMovies={messageSavedMovies}
+          middleSavedMovies={middleSavedMovies}
+          setResultShortsSavedFilm={setResultShortsSavedFilm}
           setGetTitleSavedFilms={setGetTitleSavedFilms}
           aboutProject={<Link to="/" className='Header-logo__movies'><img className='Header-logo' src={logo} alt="Логотип"/></Link>}
           savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}

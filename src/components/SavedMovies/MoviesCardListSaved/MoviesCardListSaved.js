@@ -2,31 +2,27 @@ import './MoviesCardListSaved.css'
 import './MoviesCardListSaved768.css'
 import './MoviesCardListSaved320.css'
 import MoviesCardSaved from "../MoviesCardSaved/MoviesCardSaved";
-// import delIcon from '../../../images/del-icon.png';
 import '../MoviesCardSaved/MoviesCardSaved.css';
-import picture from '../../../images/pictureOne.jpg';
 import { useEffect } from 'react';
 
-const MoviesCardListSaved = ({savedMoviesOnPage, onHandleMovieDelete, closePopup}) => {
+const MoviesCardListSaved = ({onHandleMovieDelete, closePopup, middleSavedMovies, messageSavedMovies}) => {
+
+    const infoMessage = (messageSavedMovies === 'Ничего не найдено' ? 'MoviesCardListSaved__message_active' : 'MoviesCardListSaved__message')
 
     useEffect(() => {
         closePopup()
     }, [])
 
-    // console.log(savedMoviesOnPage);
-    // console.log(savedMoviesOnPage.data);
-
-    const arrCards = (savedMoviesOnPage.data || savedMoviesOnPage).map(i => {
+    const arrCards = middleSavedMovies.map(i => {
         return (
             <MoviesCardSaved key={i.movieId} id={i.movieId} card={i} onHandleMovieDelete={onHandleMovieDelete}/>
         )
     })
 
-
-
     return (
         <section className="MoviesCardListSaved">
             <div className='MoviesCardListSaved-container'>
+                <h2 className={infoMessage}>{messageSavedMovies}</h2> 
                {arrCards}
             </div>
         </section>

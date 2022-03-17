@@ -5,6 +5,8 @@ import { useState } from 'react';
 
 const SearchForm = (props) => {
 
+    const [errMessage, setErrMessage] = useState('')
+
     const [movies, setMovies] = useState('')
     const handleSetMovies = (e) => {
         setMovies(e.target.value)
@@ -18,15 +20,21 @@ const SearchForm = (props) => {
             setShortFilms(false)
         }
     }
-    // console.log(shortFilms);
 
     const handleSubmit = (e) => {
-        e.preventDefault(props.statePage);
-        // props.onSetGetTitleFilms(movies)
-        console.log();
-        props.statePage === 'movies' ? props.onSetGetTitleFilms(movies) && props.setResultShortsFilm(shortFilms) : props.setGetTitleSavedFilms(movies) && props.setResultShortsFilm(shortFilms) 
-        // props.setResultShortsFilm(shortFilms)
-        // props.setGetTitleSavedFilms(movies)
+        setErrMessage('')
+        e.preventDefault();
+        if (movies === '') {
+            return setErrMessage('Нужно ввести ключевое слово')
+        }
+        if (props.onSetGetTitleFilms) {
+            props.setResultShortsFilm(shortFilms)
+            props.onSetGetTitleFilms(movies) 
+        }      
+        if (props.setGetTitleSavedFilms) {
+            props.setResultShortsSavedFilm(shortFilms)
+            props.setGetTitleSavedFilms(movies) 
+        }  
         setMovies('')
     }
 
@@ -34,9 +42,10 @@ const SearchForm = (props) => {
     return (
         <section className="SearchForm">
             <form className='SearchForm-form' onSubmit={handleSubmit}>
-                <input className="SearchForm-form__input" value={movies} onChange={handleSetMovies} type="text" placeholder="Фильм" minLength="1" maxLength="100" required/>
+                <input className="SearchForm-form__input" value={movies} onChange={handleSetMovies} type="text" placeholder="Фильм" maxLength="20"/>
                 <button className='SearchForm-form__button' type='submit'>Найти</button>
             </form>
+            <span className='SearchForm-form__input-error'>{errMessage}</span>
             <label className="label">
                 <input className="label__checkbox" value={shortFilms} onChange={handleSetShortFilms} type="checkbox" id="checkbox" />
                 <span className="label__fake"></span>

@@ -13,13 +13,12 @@ const ProfilePage = (props) => {
                 movies={props.movies}
                 account={props.account}
                 sandwich={props.sandwich}
-                // deactiveRegister={props.deactiveRegister}
-                // deactiveLogin={props.deactiveLogin}
                 isLoggedIn={props.isLoggedIn}
             />
             <Profile 
                 exit={props.exit}
                 closePopup={props.closePopup}
+                refreshInfoAboutUse={props.onRefreshInfoAboutUser}
             />
             <Popup 
                 sandwichMenu={props.sandwichMenu}

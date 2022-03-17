@@ -66,7 +66,6 @@
     color: #FFFFFF;
     border: none;
     outline: none;
-    /* margin-bottom: 19px; */
     padding: 0;
     padding-left: 17px;
 }
@@ -101,7 +100,7 @@
     text-align: center;
     border-radius: 3px;
     border: none;
-    margin-top: 81px;
+    margin-top: 10px;
     opacity: 1;
     transition: all .2s linear;
 }
@@ -123,7 +122,7 @@
     text-align: center;
     border-radius: 3px;
     border: none;
-    margin-top: 81px;
+    margin-top: 10px;
 }
 
 .Register-form__button_disabled:hover {
@@ -155,4 +154,15 @@
 }
 .Register-question__signin:hover {
     opacity: .7;
+}
+
+.Register-form_error-server {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #EE3465;
+    margin-top: 71px;
+    text-align: center;
 }

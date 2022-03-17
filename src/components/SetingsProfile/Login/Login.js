@@ -65,6 +65,7 @@ const Login = (props) => {
                     </label>
                     <input className='Login-form__input' type="password" value={password} onChange={handleSetPassword} minLength="8" required></input>
                     <span className='Login-form__error'>{errorPassword}</span>
+                    <span className='Login-form_error-server'>{props.messageErrorLogin}</span>
                     <button className={buttonLogin} type='submit' disabled={disabled}>
                         Войти
                     </button>

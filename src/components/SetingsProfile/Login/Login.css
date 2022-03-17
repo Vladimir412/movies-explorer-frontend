@@ -3,7 +3,6 @@
     color: #FFFFFF;
     min-height: 741px;
     margin: auto;
-    margin-top: 140px;
 }
 
 .Login-container {
@@ -12,6 +11,7 @@
     width: 100%;
     max-width: 398px;
     margin: auto;
+    margin-top: 140px;
 }
 
 .Login-logo {
@@ -70,7 +70,6 @@
     color: #FFFFFF;
     border: none;
     outline: none;
-    /* margin-bottom: 19px; */
     padding: 0;
     padding-left: 17px;
 }
@@ -101,7 +100,7 @@
     text-align: center;
     border-radius: 3px;
     border: none;
-    margin-top: 169px;
+    margin-top: 10px;
     opacity: 1;
     transition: all .2s linear;
 }
@@ -123,7 +122,7 @@
     text-align: center;
     border-radius: 3px;
     border: none;
-    margin-top: 169px;
+    margin-top: 10px;
     opacity: 1;
     transition: all .2s linear;
 }
@@ -158,4 +157,15 @@
 
 .Login-question__signin:hover {
     opacity: .7;
+}
+
+.Login-form_error-server {
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #EE3465;
+    margin-top: 159px;
+    text-align: center;
 }
