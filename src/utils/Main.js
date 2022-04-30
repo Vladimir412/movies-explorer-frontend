@@ -8,6 +8,8 @@ export const signin = (email, password) => {
         },
         body: JSON.stringify({email, password})
     })
+    // .then(checkResponse)
+    // .then(data => data)
     .then(res => res.ok? res.json() : Promise.reject(res.json()))
     .then((data) => {
        return data

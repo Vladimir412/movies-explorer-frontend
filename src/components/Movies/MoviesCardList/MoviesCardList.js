@@ -1,15 +1,11 @@
 import './MoviesCardList.css';
 import './MoviesCardList768.css';
 import './MoviesCardList320.css';
-// import '../MoviesCard/MoviesCard.css';
-// import '../MoviesCard/MoviesCard768.css';
-// import '../MoviesCard/MoviesCard320.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../../Preloader/Preloader';
 import { useEffect, useState } from 'react';
-import Login from '../../SetingsProfile/Login/Login';
 
-const MoviesCardList = ({movieOnPage, middleMovies, messageMovies, isLoading, onButtonElse, onAddSomeMovies, onHandleMovieLike, savedMovies, closePopup, isLoggedIn}) => {
+const MoviesCardList = ({movieOnPage, middleMovies, messageMovies, isLoading, onButtonElse, onAddSomeMovies, onHandleMovieLike, savedMovies, closePopup}) => {
 
     useEffect(() => {
         closePopup()
@@ -19,28 +15,10 @@ const MoviesCardList = ({movieOnPage, middleMovies, messageMovies, isLoading, on
 
     const infoMessage = (messageMovies === 'Ничего не найдено' ? 'MoviesCardList__message_active' : 'MoviesCardList__message')
     const button = (onButtonElse === true ? 'MoviesCardList-button' : 'MoviesCardList-button_deactive')
-    // const [arrCards, setArrCards] = useState([])
-    
-    
-
-    // useEffect(() => {
-    //     if (savedMovies.length !== 0 || savedMovies !== undefined)
-    //     console.log(savedMovies);
-    //     console.log(movieOnPage);
-    //     savedMovies.data.forEach(j => {
-    //         return setArrCards((movieOnPage) => {
-    //             console.log(movieOnPage);
-    //             return movieOnPage.map(i => {
-    //                 return (
-    //                     <MoviesCard key={i.id} id={i.id} card={i} savedMovies={savedMovies} like={like} movieOnPage={movieOnPage} onHandleMovieLike={onHandleMovieLike}/>
-    //                 )
-    //             })
-    //         })
-    //     })
-    // }, [movieOnPage, savedMovies])
 
     
 
+    // const arrCards = JSON.parse(localStorage.getItem('movieOnPage')).map(i => {
     const arrCards = movieOnPage.map(i => {
         return (
             <MoviesCard key={i.id} id={i.id} card={i} onHandleMovieLike={onHandleMovieLike}/>

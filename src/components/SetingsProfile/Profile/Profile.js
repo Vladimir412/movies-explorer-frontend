@@ -3,6 +3,8 @@ import './Profile768.css';
 import './Profile320.css';
 import { useContext, useEffect, useState } from 'react';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
+import isEmail from 'validator/lib/isEmail';
+
 
 const Profile = (props) => {
 
@@ -22,6 +24,17 @@ const Profile = (props) => {
     const [validEmail, setValidEmail] = useState(false)
     const [isValid, setIsValid] = useState(false);
     const [disabled, setDisabled] = useState(true)
+    const regEmail = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/
+    const regName = /^[a-zA-Zа-яА-ЯёЁ]{2,20}/gi
+    // const regEmail = /^([a-z])+\@([a-z])+\.([a-z]{2,4})$/
+
+    const checkName = (name) => {
+        return name.match(regName) === null ? false : true
+    }
+
+    const checkEmail = (email) => {
+        return email.match(regEmail) === null ? false : true
+    }
 
     useEffect(() => {
         setName(currentUser.user.name)
@@ -32,25 +45,29 @@ const Profile = (props) => {
 
     const handleSetName = (e) => {
         setName(e.target.value)
-        setErrorName(e.target.validationMessage)
-        setValidName(e.target.checkValidity())
+        setErrorName(checkName(e.target.value) === false ? 'Имя должно состоять из кирилицы и латиницы' : '')
+        setValidName(checkName(e.target.value))
+        // setValidName(e.target.value.match(regName) === null ? false : true)
+        // setValidName(e.target.checkValidity())
     }
 
     const handleSetEmail = (e) => {
         setEmail(e.target.value)
-        setErrorEmail(e.target.validationMessage)
-        setValidEmail(e.target.checkValidity())
+        setErrorEmail(checkEmail(e.target.value) === false ? 'Введите корректный Email' : '')
+        setValidEmail(checkEmail(e.target.value))
+        // setValidEmail(e.target.value.match(regEmail) === null ? false : true)
+        // setValidEmail(e.target.checkValidity())
     }
 
     useEffect(() => {
-        if (validName && validEmail && firstStateName !== name && firstStateEmail !== email) {
+        if ((validName && checkEmail(email) && firstStateName !== name) || (validEmail && checkName(name) && firstStateEmail !== email)) {
             setDisabled(false)
             setIsValid(true)
         } else {
             setDisabled(true)
             setIsValid(false)
         }
-    })
+    },[name, email])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -66,12 +83,12 @@ const Profile = (props) => {
             <form className='Profile-form' onSubmit={handleSubmit}>
                 <label className='Profile-form__container'>
                     <label className='Profile-form__title'>Имя</label>
-                    <input className='Profile-form__input' value={name} onChange={handleSetName} type="name" minLength="1" maxLength="30" required/>
+                    <input className='Profile-form__input' value={name} onChange={handleSetName} type="name" minLength="1" maxLength="30" />
                 </label>
                 <span className='Profile-form__input-error'>{errorName}</span>
                 <label className='Profile-form__container Profile-form__container_margin-top'>
                     <label className='Profile-form__title'>E-mail</label>
-                    <input className='Profile-form__input' value={email} onChange={handleSetEmail} type="email" required/>
+                    <input className='Profile-form__input' value={email} onChange={handleSetEmail} type="email" />
                 </label>
                 <span className='Profile-form__input-error'>{errorEmail}</span>
 

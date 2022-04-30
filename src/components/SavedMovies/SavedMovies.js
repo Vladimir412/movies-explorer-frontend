@@ -31,6 +31,7 @@ const SavedMovies = (props) => {
                 onHandleMovieDelete={props.onHandleMovieDelete}
                 savedMoviesOnPage={props.savedMoviesOnPage}
                 closePopup={props.closePopup}
+                isLoading={props.isLoading}
             />
             <Footer />
             <Popup

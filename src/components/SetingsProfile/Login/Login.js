@@ -13,11 +13,17 @@ const Login = (props) => {
     const [validPassword, setValidPassword] = useState(false)
     const [isValid, setIsValid] = useState(false);
     const [disabled, setDisabled] = useState(true)
+    const regEmail = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/
+
+    const checkEmail = (email) => {
+        return email.match(regEmail) === null ? false : true
+    }
 
     const handleSetEmail = (e) => {
         setEmail(e.target.value)
-        setErrorEmail(e.target.validationMessage)
-        setValidEmail(e.target.checkValidity())
+        setErrorEmail(checkEmail(e.target.value) === false ? 'Введите корректный Email' : '')
+        setValidEmail(checkEmail(e.target.value))
+        // setValidEmail(e.target.checkValidity())
     }
 
     const handleSetPassword = (e) => {

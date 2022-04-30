@@ -1,7 +1,7 @@
 import logo from '../../images/logo/logo.svg';
 import { useState, useEffect } from 'react';
 
-import { Route, Switch, useHistory, Link, NavLink } from 'react-router-dom'
+import { Route, Switch, useHistory, Link, NavLink, useLocation } from 'react-router-dom'
 import './App.css';
 import Login from '../SetingsProfile/Login/Login';
 import Register from '../SetingsProfile/Register/Register';
@@ -22,9 +22,11 @@ import ProfilePage from '../SetingsProfile/ProfilePage/ProfilePage';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Popup from '../Popup/Popup';
 
+
 function App() {
 
 const history = useHistory();
+const location = useLocation()
 const [currentUser, setCurrentUser] = useState({})
 
 //состояние прелоадера
@@ -36,6 +38,11 @@ const handleIsLoggedIn = () => {
   setIsLoggedIn(true)
 }
 
+//запись адреса текущей страници
+useEffect(() => {
+  localStorage.setItem('pageView', location.pathname)
+}, [location])
+
 //проверка аторизации при обновление состояния
 useEffect(() => {
   tokenCheck()
@@ -44,19 +51,39 @@ useEffect(() => {
 //проверка авторизации
 const tokenCheck = () => {
   if (localStorage.getItem('jwt')) {
-    handleIsLoggedIn(true)
-    history.push('/movies')
+    MainApi.getInfoAboutUser()
+    .then(data => setCurrentUser(data))
+    .then((data) => {
+      handleIsLoggedIn(true)
+      // history.push(localStorage.getItem('pageView'))
+    })
+    .catch(err => console.log(err))
+      // handleIsLoggedIn(true)
+      // history.push(localStorage.getItem('pageView'))
+
+    // history.push('/movies')
+    // history.goBack()
   }
 }
 
-//получение данных о пользователе
 useEffect(() => {
-  if (localStorage.getItem('jwt')) {
-    MainApi.getInfoAboutUser()
-    .then(data => setCurrentUser(data))
-    .catch(err => console.log(err))
+  history.push(localStorage.getItem('pageView'))
+}, [currentUser])
+
+//получение данных о пользователе
+// useEffect(() => {
+//   if (localStorage.getItem('jwt')) {
+//     MainApi.getInfoAboutUser()
+//     .then(data => setCurrentUser(data))
+//     .catch(err => console.log(err))
+//   }
+// }, [isLoggedIn])
+
+useEffect(() => {
+  if (localStorage.getItem('jwt') && localStorage.getItem('movies') !== null) {
+        setMiddleMovies(JSON.parse(localStorage.getItem('movies')))
   }
-}, [isLoggedIn])
+}, [])
 
 //редактирование профиля
 const refreshInfoAboutUser = (name, email) => {
@@ -76,10 +103,13 @@ const handleRegister = (name, email, password) => {
       return setMessageErrorRegister(data)
     }
     MainApi.signin(data.email, password)
-    .then(res => {
-      localStorage.setItem('jwt', res.token)
+    .then(data => {
+      console.log(data)
+      if (data) {
+      localStorage.setItem('jwt', data.token)
       handleIsLoggedIn(true)
       history.push('/movies')
+      }
     })
   })
   .catch(err => console.log(err))
@@ -120,13 +150,12 @@ useEffect(() => {
   if (localStorage.getItem('jwt')) {
     MovieasApi.getMovies()
     .then((data) => {
-      setCards(() => {
-        return data.map(i => {
-          let obj = i
-          obj.like = false
-          return obj
-        })
+      const arrFilms = data.map(i => {
+        let obj = i
+        i.like = false
+        return obj
       })
+      setCards(arrFilms)
     })
     .catch(() => {
       setMessageMovies('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
@@ -135,7 +164,7 @@ useEffect(() => {
 }, [isLoggedIn])
 
 //найденные фильмы
-const [movieOnPage, setMovieOnPage] = useState([])
+const [movieOnPage, setMovieOnPage] = useState(null)
 
 //стостояние кнопки "еще"
 const [buttonElse, setButtonElse] = useState(false)
@@ -159,58 +188,75 @@ const showMovie = (array, number) => {
     if (array.length > number) {
       setButtonElse(true)
         arr = array.slice(0, number)
+        localStorage.setItem('movieOnPage', JSON.stringify(arr))
         setMovieOnPage(arr)
     } else {
+      localStorage.setItem('movieOnPage', JSON.stringify(array))
       setMovieOnPage(array)
     }
 }
 
-const searhFilm = (films) => {
+//поиск короткометражек
+const searhFilm = (films, typeOfFilms) => {
    return films.filter(i => {
     const { country, director, duration, year, description, thumbnail, nameRU, nameEN, id} = i
     const trailer = i.trailerLink
     const image = i.image.url
-    if (i.nameRU.includes(getTitleFilms) && i.duration <= 40 && i.duration > 0) {
+    if (i.nameRU.includes(typeOfFilms) && i.duration <= 40 && i.duration > 0) {
       setMessageMovies('')
       return { country, director, duration, year, description, image, trailer, thumbnail, nameRU, nameEN, movieId: id, id, key: id }
     }
   })
 }
 
-const filterShortFilms = (films) => {
+const filterShortFilms = (films, typeOfFilms) => {
   setMiddleMovies(() => {
-    return searhFilm(films)
+    return searhFilm(films, typeOfFilms)
   })
 }
 
 //отфильтровываем фильмы по названию
 useEffect(() => {
   if (getTitleFilms !== '') {
-  setIsLoading(true)
-  setMessageMovies('')
-  if (resultShortsFilm) {
-      return filterShortFilms(cards)
-  }
-  setMiddleMovies(cards.filter(item => {
-    const { country, director, duration, year, description, thumbnail, nameRU, nameEN, id} = item
-    const trailer = item.trailerLink
-    const image = item.image.url
-    if (item.nameRU.includes(getTitleFilms)) {
-      return { country, director, duration, year, description, image, trailer, thumbnail, nameRU, nameEN, movieId: id, id, key: id }
+    setMessageMovies('')
+    if (resultShortsFilm) {
+      setIsLoading(true)
+      setTimeout(() => {
+        setIsLoading(false)
+        return filterShortFilms(cards, getTitleFilms)
+      }, 1000)
+      return
     }
-  }))
-  return () => {
-    setIsLoading(false)
-  }
-}}, [getTitleFilms, resultShortsFilm])
+    setIsLoading(true)
+    setTimeout(() => {
+      setMiddleMovies(cards.filter(item => {
+        const { country, director, duration, year, description, thumbnail, nameRU, nameEN, id} = item
+        const trailer = item.trailerLink
+        const image = item.image.url
+        const lowerNameCase = item.nameRU.toLowerCase()
+        const lowerTitleCase = getTitleFilms.toLocaleLowerCase()
+        if (lowerNameCase.includes(lowerTitleCase)) {
+          return { country, director, duration, year, description, image, trailer, thumbnail, nameRU, nameEN, movieId: id, id, key: id }
+        }
+      }))
 
+    setIsLoading(false)
+  }, 1000)
+  }
+}, [getTitleFilms, resultShortsFilm])
+
+//записывает найденные фильмы в хранилище
 useEffect(() => {
-  if (movieOnPage.length === 0 && getTitleFilms.length > 0) {
+  localStorage.setItem('movies', JSON.stringify(middleMovies))
+}, [middleMovies])
+
+//если фильмы не найдены
+useEffect(() => {
+  if (middleMovies.length === 0 && getTitleFilms.length > 0) {
     setMessageMovies('Ничего не найдено')
   }
-}, [movieOnPage])
-
-
+  
+}, [middleMovies])
 
 //отрисовка фильмов
 useEffect(() => {
@@ -222,9 +268,6 @@ useEffect(() => {
   }
   if (window.innerWidth >= 320 && window.innerWidth < 768) {
       showMovie(middleMovies, 5)
-  }
-  return () => {
-    setIsLoading(false)
   }
 }, [middleMovies])
 
@@ -252,19 +295,32 @@ const [messageSavedMovies, setMessageSavedMovies] = useState('')
 useEffect(() => {
   if (localStorage.getItem('jwt')) {
     MainApi.getMovies()
-    .then(movies => setSavedMovies(movies))
+    .then(movies => {
+      localStorage.setItem('savedMovies', JSON.stringify(movies.data))
+      setMiddleSavedMovies(movies.data)
+  })
     .catch(err => console.log(err))
   }
 }, [isLoggedIn])
 
+//поиск сохраненных фильмов по названию
 useEffect(() => {
   if (getTitleSavedFilms !== '') {
     setMessageSavedMovies('')
     if (resultShortsSavedFilm) {
-      return setMiddleSavedMovies(searhFilm(savedMovies.data))
+      setIsLoading(true)
+      setTimeout(() => {
+        setIsLoading(false)
+        return setMiddleSavedMovies(searhFilm(middleSavedMovies, getTitleSavedFilms))
+      }, 1000)
+      return
     }
-    setMiddleSavedMovies(savedMovies.data.filter(i => {
-        if (i.nameRU.includes(getTitleSavedFilms)) {
+    setIsLoading(true)
+    setTimeout(() => {
+    setMiddleSavedMovies(JSON.parse(localStorage.getItem('savedMovies')).filter(i => {
+      const lowerNameCase = i.nameRU.toLowerCase()
+      const lowerTitleCase = getTitleSavedFilms.toLocaleLowerCase()
+        if (lowerNameCase.includes(lowerTitleCase)) {
           const { country, director, duration, year, description, thumbnail, nameRU, nameEN, id} = i
           const trailer = i.trailerLink
           const image = i.image.url
@@ -272,11 +328,15 @@ useEffect(() => {
         }
       })
     )
-}}, [getTitleSavedFilms, resultShortsSavedFilm])
+    setIsLoading(false)
+  }, 1000)
+}
+}, [getTitleSavedFilms, resultShortsSavedFilm])
 
 useEffect(() => {
   if (middleSavedMovies.length === 0 && getTitleSavedFilms.length > 0) {
     setMessageSavedMovies('Ничего не найдено')
+    setIsLoading(false)
   }
 }, [middleSavedMovies])
 
@@ -287,22 +347,27 @@ const handleMovieLike = (card) => {
   const nameEN = (card.nameEN === '' ? '*******' : card.nameEN)
   const country = (card.country === null ? '*** *****' : card.country)
   const image = `https://api.nomoreparties.co/${card.image.url}`;
-  newMovie = (savedMovies.data || savedMovies).some(element => {
+  newMovie = middleSavedMovies.some(element => {
     return element.movieId === card.id
   });
   
-    if ((savedMovies.data || savedMovies).length === 0 || newMovie === false) {
+    if (middleSavedMovies.length === 0 || newMovie === false) {
       return MainApi.createMovie(country, director, duration, year, description, image, trailer, thumbnail, movieId, nameRU, nameEN)
         .then(savedMovie => {
-          setSavedMovies([...(savedMovies.data || savedMovies), savedMovie.data])
+          setMiddleSavedMovies([...middleSavedMovies, savedMovie.data])
+        })
+        .then(() => {
+            setMovieOnPage((movieOnPage) => {
+              return movieOnPage.map(i => i.id === card.id ? {...i, like: true} : i)
+            })
         })
         .catch(err => console.log(err))
     }
     if (newMovie) {
-      let movieForDelete = (savedMovies.data || savedMovies).find(i => i.movieId === card.id)
+      let movieForDelete = middleSavedMovies.find(i => i.movieId === card.id)
        MainApi.deleteMovie(movieForDelete._id)
-       .then(res => setSavedMovies((savedMovies) => {
-           return (savedMovies.data || savedMovies).filter(j => j.movieId !== card.id)
+       .then(res => setMiddleSavedMovies((middleSavedMovies) => {
+           return middleSavedMovies.filter(j => j.movieId !== card.id)
           }
           ))
         .then(() => setMovieOnPage((movieOnPage) => {
@@ -314,8 +379,8 @@ const handleMovieLike = (card) => {
 
 //отрисовка лайков
 const likeForFilms = () => {
-  if (savedMovies.length !== 0) {
-    (savedMovies.data || savedMovies).forEach(i => {
+  if (middleSavedMovies.length !== 0) {
+    middleSavedMovies.forEach(i => {
       setMovieOnPage((movieOnPage) => {
         return movieOnPage.map(j => j.id === i.movieId ? {...j, like: true} : j)
     })
@@ -326,14 +391,15 @@ const likeForFilms = () => {
 //эффект отрисовка лайков
 useEffect(() => {
   likeForFilms()
-}, [savedMovies, middleMovies, buttonElse, fakemovies])
+}, [savedMovies, middleSavedMovies, middleMovies, buttonElse, fakemovies, cards])
+
 
 //удаление карточки находятсь на странице saved-movies
 const handleMovieDelete = (card) => {
   MainApi.deleteMovie(card._id)
   .then(() => {
-    setSavedMovies((savedMovies) => {
-      return (savedMovies.data || savedMovies).filter(i => i._id !== card._id)
+    setMiddleSavedMovies((middleSavedMovies) => {
+      return middleSavedMovies.filter(i => i._id !== card._id)
     })
   })
   .catch(err => console.log(err))
@@ -370,16 +436,60 @@ const sandwichMenu = (isMenuOpen ? 'popup__open' : 'popup')
 
 //выход из аккаунта
 const loginOut = () => {
-  localStorage.removeItem('jwt');
   setIsLoggedIn(false);
+  setMiddleMovies([])
+  setGetTitleFilms('')
+  localStorage.clear()
   history.push('/')
 }
-
 
   return (
     <div className="App">
       <CurrentUserContext.Provider value={currentUser}>
       <Switch>
+      <Route exact path='/'>
+          < Header 
+            position={true}
+            sandwich={<button className='Navigation-control__sandwich' type='button' onClick={handleSetIsMenuOpen}></button>}
+            // sandwich={<button className='Navigation-control__sandwich' type='button'></button>}
+            account={<Link to="/profile" className='Navigation-control__account Navigation-control__account_active' ></Link>}
+            savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
+            movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
+            isLoggedIn={isLoggedIn}
+            aboutProject={<img className='Header-logo Header-logo_deactive' src={logo} alt='Логотип' />}
+            register={<Link to="/signup" className='Navigation-control__register'>Регистрация</Link>}
+            login={<NavLink to="/signin" className='Navigation-control__text'>Войти</NavLink>}
+          />
+          < Promo
+            closePopup={closePopup}
+            project={<a href='#about-project' className='NavTab-link'>О проекте</a>}
+            techs={<a href='#technologies' className='NavTab-link'>Технологии</a>}
+            student={<a href='#student' className='NavTab-link'>Студент</a>}
+          />
+          <AboutProject
+            aboutProject={"about-project"}
+          />
+          < Techs
+            techs={"technologies"}
+          />
+          <AboutMe
+            student={"student"}
+          />
+          < Portfolio
+            static={<a className="Portfolio-container__title" href='https://github.com/Vladimir412/how-to-learn' target="_blank" rel="noreferrer">Статичный сайт</a>}
+            adaptive={<a className="Portfolio-container__title" href='https://github.com/Vladimir412/russian-travel' target="_blank" rel="noreferrer">Адаптивный сайт</a>}
+            singleApp={<a className="Portfolio-container__title" href='https://github.com/Vladimir412/react-mesto-api-full' target="_blank" rel="noreferrer">Одностраничное приложение</a>}
+          />
+          < Footer />
+          <Popup
+              sandwichMenu={sandwichMenu}
+              onClosePopup={closePopup}
+              aboutProject={<Link to="/" className='popup-container__title'>Главная</Link>}
+              savedMovies={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
+              movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
+              account={<Link to="/profile" className='popup-container__account'></Link>}
+          />
+        </Route>
         <Route path='/signup'>
           < Register
             messageErrorRegister={messageErrorRegister}
@@ -468,8 +578,9 @@ const loginOut = () => {
           accountPopup={<Link to="/profile" className='popup-container__account'></Link>}
           isLoggedIn={isLoggedIn}
           closePopup={closePopup}
+          isLoading={isLoading}
         />
-        <Route exact path='/'>
+        {/* <Route exact path='/'>
           < Header 
             position={true}
             sandwich={<button className='Navigation-control__sandwich' type='button' onClick={handleSetIsMenuOpen}></button>}
@@ -511,10 +622,10 @@ const loginOut = () => {
               movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
               account={<Link to="/profile" className='popup-container__account'></Link>}
           />
-        </Route>
-        <Route path='/error'>
+        </Route> */}
+        <Route path='*'>
           <Error404
-            return={<Link to="/" className='Error404-button' >Назад</Link>}
+            // return={<Link to="/" className='Error404-button' >Назад</Link>}
           />
         </Route>
       </Switch>

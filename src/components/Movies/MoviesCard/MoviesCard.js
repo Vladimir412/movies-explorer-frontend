@@ -2,6 +2,7 @@ import './MoviesCard.css';
 import './MoviesCard768.css';
 import './MoviesCard320.css';
 import { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 
 
 const MoviesCard = (props) => {
@@ -36,7 +37,7 @@ const MoviesCard = (props) => {
                 <button className={isLike} onClick={handleMovieLike}>
                 </button>
             </div>
-            <img className="MoviesCard-image" src={`https://api.nomoreparties.co/${props.card.image.url}`} alt='Фото фильма'></img>
+            <a className='MoviesCard-trailer' href={props.card.trailerLink} target="_blank" rel="noreferrer"><img className="MoviesCard-image" src={`https://api.nomoreparties.co/${props.card.image.url}`} alt='Фото фильма' ></img></a>
         </article>
     )
 }

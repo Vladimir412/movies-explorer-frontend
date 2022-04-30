@@ -107,7 +107,31 @@
     border-radius: 50%;
 }
 
-#checkbox:checked + .label__fake {
+.label__fake_active {
+    background-color: #3DDC84;
+    display: inline-block;
+    width: 34px;
+    height: 14px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.label__fake_active::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    top: 2px;
+    right: 2px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    position: absolute;
+    display: inline-block;
+}
+
+.label__fake_active::before {
+    display: none;
+}
+/* #checkbox:checked + .label__fake {
     background-color: #3DDC84;
 }
 
@@ -117,7 +141,7 @@
 
 #checkbox:checked + .label__fake::before {
     display: none;
-}
+} */
 
 .label__checkbox {
     /* width: 34px;

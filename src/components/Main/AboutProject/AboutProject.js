@@ -20,8 +20,8 @@ const AboutProject = (props) => {
             <div className='AboutProject-plan'>
                 <p className='AboutProject-plan__first-week'>1 неделя</p>
                 <p className='AboutProject-plan__other-week'>4 недели</p>
-                <p className='AboutProject-plan__front'>Front-end</p>
-                <p className='AboutProject-plan__back'>Back-end</p>
+                <p className='AboutProject-plan__front'>Back-end</p>
+                <p className='AboutProject-plan__back'>Front-end</p>
             </div>
         </div>
     )

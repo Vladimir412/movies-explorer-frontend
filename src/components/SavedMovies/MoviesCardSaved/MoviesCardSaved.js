@@ -36,7 +36,7 @@ const MoviesCardSaved = ({card, onHandleMovieDelete}) => {
                 </div>
                 <button className="MoviesCardSaved-delete" onClick={handleMovieDelete}></button>
             </div>
-            <img className="MoviesCardSaved-image" src={card.image} alt='Фото фильма'></img>
+            <a className='MoviesCardSaved-trailer' href={card.trailer} target="_blank" rel="noreferrer"><img className="MoviesCardSaved-image" src={card.image} alt='Фото фильма'></img></a>
         </article>
     )
 }
