@@ -32,9 +32,6 @@ const SearchForm = (props) => {
     }, [])
 
     const [shortFilms, setShortFilms] = useState(false)
-    // const [shortFilms, setShortFilms] = useState(props.statePage === 'movies'
-    //     ? JSON.parse(localStorage.getItem('shortFilms'))
-    //     : JSON.parse(localStorage.getItem('savedShortFilms')))
 
     const handleSetShortFilms = () => {
         if (shortFilms === false || shortFilms === null) {

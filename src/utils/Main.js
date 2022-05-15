@@ -97,5 +97,6 @@ export const deleteMovie = (data) => {
 }
 
 const checkResponse = (res) => {
+    // return res.ok ? res.json() : Promise.reject(res.status)
     return res.ok ? res.json() : Promise.reject(console.log(res))
 }

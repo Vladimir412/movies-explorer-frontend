@@ -1,7 +1,7 @@
 import logo from '../../images/logo/logo.svg';
 import { useState, useEffect } from 'react';
 
-import { Route, Switch, useHistory, Link, NavLink, useLocation } from 'react-router-dom'
+import { Route, Switch, useHistory, Link, NavLink, useLocation, Redirect } from 'react-router-dom'
 import './App.css';
 import Login from '../SetingsProfile/Login/Login';
 import Register from '../SetingsProfile/Register/Register';
@@ -53,31 +53,19 @@ const tokenCheck = () => {
   if (localStorage.getItem('jwt')) {
     MainApi.getInfoAboutUser()
     .then(data => setCurrentUser(data))
-    .then((data) => {
+    .then(() => {
       handleIsLoggedIn(true)
-      // history.push(localStorage.getItem('pageView'))
     })
-    .catch(err => console.log(err))
-      // handleIsLoggedIn(true)
-      // history.push(localStorage.getItem('pageView'))
-
-    // history.push('/movies')
-    // history.goBack()
+    .catch(err => {
+      console.log(err);
+      console.log(err.status);
+    })
   }
 }
 
 useEffect(() => {
   history.push(localStorage.getItem('pageView'))
 }, [currentUser])
-
-//получение данных о пользователе
-// useEffect(() => {
-//   if (localStorage.getItem('jwt')) {
-//     MainApi.getInfoAboutUser()
-//     .then(data => setCurrentUser(data))
-//     .catch(err => console.log(err))
-//   }
-// }, [isLoggedIn])
 
 useEffect(() => {
   if (localStorage.getItem('jwt') && localStorage.getItem('movies') !== null) {
@@ -219,7 +207,7 @@ const filterShortFilms = (films, typeOfFilms) => {
 useEffect(() => {
   if (getTitleFilms !== '') {
     setMessageMovies('')
-    if (resultShortsFilm) {
+    if (resultShortsFilm === true) {
       setIsLoading(true)
       setTimeout(() => {
         setIsLoading(false)
@@ -293,21 +281,30 @@ const [messageSavedMovies, setMessageSavedMovies] = useState('')
 
 //получение сохраненных фильмов
 useEffect(() => {
-  if (localStorage.getItem('jwt')) {
+  if (isLoggedIn === true) {
+    console.log(localStorage.getItem('searchSavedMovies'));
+    if (localStorage.getItem('searchSavedMovies') !== null || localStorage.getItem('searchSavedMovies') === '') {
+      setMiddleSavedMovies(JSON.parse(localStorage.getItem('searchSavedMovies')))
+    } else {
     MainApi.getMovies()
     .then(movies => {
-      localStorage.setItem('savedMovies', JSON.stringify(movies.data))
-      setMiddleSavedMovies(movies.data)
+      console.log(movies);
+      console.log(localStorage.getItem('searchSavedMovies'));
+      if (localStorage.getItem('searchSavedMovies') === null) {
+        localStorage.setItem('savedMovies', JSON.stringify(movies.data))
+        setMiddleSavedMovies(movies.data)
+      }
   })
     .catch(err => console.log(err))
   }
+}
 }, [isLoggedIn])
 
 //поиск сохраненных фильмов по названию
 useEffect(() => {
   if (getTitleSavedFilms !== '') {
     setMessageSavedMovies('')
-    if (resultShortsSavedFilm) {
+    if (resultShortsSavedFilm === true) {
       setIsLoading(true)
       setTimeout(() => {
         setIsLoading(false)
@@ -319,7 +316,7 @@ useEffect(() => {
     setTimeout(() => {
     setMiddleSavedMovies(JSON.parse(localStorage.getItem('savedMovies')).filter(i => {
       const lowerNameCase = i.nameRU.toLowerCase()
-      const lowerTitleCase = getTitleSavedFilms.toLocaleLowerCase()
+      const lowerTitleCase = getTitleSavedFilms.toLowerCase()
         if (lowerNameCase.includes(lowerTitleCase)) {
           const { country, director, duration, year, description, thumbnail, nameRU, nameEN, id} = i
           const trailer = i.trailerLink
@@ -330,8 +327,19 @@ useEffect(() => {
     )
     setIsLoading(false)
   }, 1000)
+  localStorage.setItem('searchSavedMovies', JSON.stringify(JSON.parse(localStorage.getItem('savedMovies')).filter(i => {
+    const lowerNameCase = i.nameRU.toLowerCase()
+    const lowerTitleCase = getTitleSavedFilms.toLowerCase()
+      if (lowerNameCase.includes(lowerTitleCase)) {
+        const { country, director, duration, year, description, thumbnail, nameRU, nameEN, id} = i
+        const trailer = i.trailerLink
+        const image = i.image.url
+        return { country, director, duration, year, description, image, trailer, thumbnail, nameRU, nameEN, movieId: id, id, key: id } 
+      }
+    })))
 }
 }, [getTitleSavedFilms, resultShortsSavedFilm])
+
 
 useEffect(() => {
   if (middleSavedMovies.length === 0 && getTitleSavedFilms.length > 0) {
@@ -352,14 +360,24 @@ const handleMovieLike = (card) => {
   });
   
     if (middleSavedMovies.length === 0 || newMovie === false) {
+      let createdMovie
       return MainApi.createMovie(country, director, duration, year, description, image, trailer, thumbnail, movieId, nameRU, nameEN)
         .then(savedMovie => {
+          createdMovie = savedMovie.data
           setMiddleSavedMovies([...middleSavedMovies, savedMovie.data])
         })
         .then(() => {
             setMovieOnPage((movieOnPage) => {
               return movieOnPage.map(i => i.id === card.id ? {...i, like: true} : i)
             })
+            if (JSON.parse(localStorage.getItem('savedMovies')).length === 0) {
+            let arr = [createdMovie]
+            localStorage.setItem('savedMovies', JSON.stringify(arr))
+            } else {
+              let storage = JSON.parse(localStorage.getItem('savedMovies'))
+              storage.push(createdMovie)
+              localStorage.setItem('savedMovies', JSON.stringify(storage))
+            }
         })
         .catch(err => console.log(err))
     }
@@ -370,9 +388,13 @@ const handleMovieLike = (card) => {
            return middleSavedMovies.filter(j => j.movieId !== card.id)
           }
           ))
-        .then(() => setMovieOnPage((movieOnPage) => {
+        .then(() => {setMovieOnPage((movieOnPage) => {
           return movieOnPage.map(i => i.id === card.id ? {...i, like: false} : i)
-        }))
+          })
+          const search = JSON.parse(localStorage.getItem('savedMovies'))
+          const result = search.filter(i => i._id !== movieForDelete._id)
+          localStorage.setItem('savedMovies', JSON.stringify(result))
+        })
         .catch(err => console.log(err))  
     }
 }
@@ -398,9 +420,23 @@ useEffect(() => {
 const handleMovieDelete = (card) => {
   MainApi.deleteMovie(card._id)
   .then(() => {
-    setMiddleSavedMovies((middleSavedMovies) => {
-      return middleSavedMovies.filter(i => i._id !== card._id)
-    })
+    if (JSON.parse(localStorage.getItem('searchSavedMovies')) === null) {
+      console.log('zz');
+      setMiddleSavedMovies((middleSavedMovies) => {
+        return middleSavedMovies.filter(i => i._id !== card._id)
+      }) 
+      const search = JSON.parse(localStorage.getItem('savedMovies'))
+      const result = search.filter(i => i._id !== card._id)
+      localStorage.setItem('savedMovies', JSON.stringify(result))
+      const searchSaved = JSON.parse(localStorage.getItem('searchSavedMovies'))
+      const resultSaved = searchSaved.filter(i => i._id !== card._id)
+      localStorage.setItem('searchSavedMovies', JSON.stringify(resultSaved))
+    } else {
+      console.log('gg');
+      const search = JSON.parse(localStorage.getItem('searchSavedMovies'))
+      const result = search.filter(i => i._id !== card._id)
+        localStorage.setItem('searchSavedMovies', JSON.stringify(result))
+      }
   })
   .catch(err => console.log(err))
 }
