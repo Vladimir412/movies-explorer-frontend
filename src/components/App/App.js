@@ -1,7 +1,7 @@
 import logo from '../../images/logo/logo.svg';
 import { useState, useEffect } from 'react';
 
-import { Route, Switch, useHistory, Link, NavLink, useLocation, Redirect } from 'react-router-dom'
+import { Route, Switch, useHistory, Link, NavLink, useLocation } from 'react-router-dom'
 import './App.css';
 import Login from '../SetingsProfile/Login/Login';
 import Register from '../SetingsProfile/Register/Register';
@@ -39,14 +39,9 @@ const handleIsLoggedIn = () => {
 }
 
 //запись адреса текущей страници
-useEffect(() => {
-  localStorage.setItem('pageView', location.pathname)
-}, [location])
-
-//проверка аторизации при обновление состояния
-useEffect(() => {
-  tokenCheck()
-}, [isLoggedIn])
+// useEffect(() => {
+//   localStorage.setItem('pageView', location.pathname)
+// }, [location])
 
 //проверка авторизации
 const tokenCheck = () => {
@@ -58,14 +53,18 @@ const tokenCheck = () => {
     })
     .catch(err => {
       console.log(err);
-      console.log(err.status);
     })
   }
 }
 
+//проверка аторизации при обновление состояния
 useEffect(() => {
-  history.push(localStorage.getItem('pageView'))
-}, [currentUser])
+  tokenCheck()
+}, [isLoggedIn])
+
+// useEffect(() => {
+//   history.push(localStorage.getItem('pageView'))
+// }, [currentUser])
 
 useEffect(() => {
   if (localStorage.getItem('jwt') && localStorage.getItem('movies') !== null) {
@@ -92,7 +91,6 @@ const handleRegister = (name, email, password) => {
     }
     MainApi.signin(data.email, password)
     .then(data => {
-      console.log(data)
       if (data) {
       localStorage.setItem('jwt', data.token)
       handleIsLoggedIn(true)
@@ -282,14 +280,11 @@ const [messageSavedMovies, setMessageSavedMovies] = useState('')
 //получение сохраненных фильмов
 useEffect(() => {
   if (isLoggedIn === true) {
-    console.log(localStorage.getItem('searchSavedMovies'));
     if (localStorage.getItem('searchSavedMovies') !== null || localStorage.getItem('searchSavedMovies') === '') {
       setMiddleSavedMovies(JSON.parse(localStorage.getItem('searchSavedMovies')))
     } else {
     MainApi.getMovies()
     .then(movies => {
-      console.log(movies);
-      console.log(localStorage.getItem('searchSavedMovies'));
       if (localStorage.getItem('searchSavedMovies') === null) {
         localStorage.setItem('savedMovies', JSON.stringify(movies.data))
         setMiddleSavedMovies(movies.data)
@@ -388,21 +383,57 @@ const handleMovieLike = (card) => {
            return middleSavedMovies.filter(j => j.movieId !== card.id)
           }
           ))
-        .then(() => {setMovieOnPage((movieOnPage) => {
-          return movieOnPage.map(i => i.id === card.id ? {...i, like: false} : i)
+        .then(() => {
+          setMiddleMovies((middleMovies) => {
+          return middleMovies.map(i => i.id === card.id ? {...i, like: false} : i)
           })
           const search = JSON.parse(localStorage.getItem('savedMovies'))
           const result = search.filter(i => i._id !== movieForDelete._id)
           localStorage.setItem('savedMovies', JSON.stringify(result))
+          if (JSON.parse(localStorage.getItem('searchSavedMovies')) !== null) {
+            const searchSaved = JSON.parse(localStorage.getItem('searchSavedMovies'))
+            const resultSaved = searchSaved.filter(i => i._id !== card._id)
+            localStorage.setItem('searchSavedMovies', JSON.stringify(resultSaved))
+          }
         })
         .catch(err => console.log(err))  
     }
 }
 
+//удаление карточки находятсь на странице saved-movies
+const handleMovieDelete = (card) => {
+  MainApi.deleteMovie(card._id)
+  .then(() => {
+    setMiddleSavedMovies((middleSavedMovies) => {
+      return middleSavedMovies.filter(i => i._id !== card._id)
+    }) 
+    if (JSON.parse(localStorage.getItem('searchSavedMovies')) === null) {
+      const search = JSON.parse(localStorage.getItem('savedMovies'))
+      const result = search.filter(i => i._id !== card._id)
+      localStorage.setItem('savedMovies', JSON.stringify(result))
+    } else {
+      const search = JSON.parse(localStorage.getItem('savedMovies'))
+      const result = search.filter(i => i._id !== card._id)
+      localStorage.setItem('savedMovies', JSON.stringify(result))
+      const searchSaved = JSON.parse(localStorage.getItem('searchSavedMovies'))
+      const resultSaved = searchSaved.filter(i => i._id !== card._id)
+      localStorage.setItem('searchSavedMovies', JSON.stringify(resultSaved))
+    }
+  })
+  .then(() => {
+    setMiddleMovies((middleMovies) => {
+      return middleMovies.map(i => i.id === card.id ? {...i, like: false} : i)
+      })
+  })
+  .catch(err => console.log(err))
+}
+
 //отрисовка лайков
 const likeForFilms = () => {
-  if (middleSavedMovies.length !== 0) {
-    middleSavedMovies.forEach(i => {
+  if (JSON.parse(localStorage.getItem('savedMovies')) !== null) {
+    const arrMovies = JSON.parse(localStorage.getItem('movies'))
+    const storageSavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
+    storageSavedMovies.forEach(i => {
       setMovieOnPage((movieOnPage) => {
         return movieOnPage.map(j => j.id === i.movieId ? {...j, like: true} : j)
     })
@@ -414,32 +445,6 @@ const likeForFilms = () => {
 useEffect(() => {
   likeForFilms()
 }, [savedMovies, middleSavedMovies, middleMovies, buttonElse, fakemovies, cards])
-
-
-//удаление карточки находятсь на странице saved-movies
-const handleMovieDelete = (card) => {
-  MainApi.deleteMovie(card._id)
-  .then(() => {
-    if (JSON.parse(localStorage.getItem('searchSavedMovies')) === null) {
-      console.log('zz');
-      setMiddleSavedMovies((middleSavedMovies) => {
-        return middleSavedMovies.filter(i => i._id !== card._id)
-      }) 
-      const search = JSON.parse(localStorage.getItem('savedMovies'))
-      const result = search.filter(i => i._id !== card._id)
-      localStorage.setItem('savedMovies', JSON.stringify(result))
-      const searchSaved = JSON.parse(localStorage.getItem('searchSavedMovies'))
-      const resultSaved = searchSaved.filter(i => i._id !== card._id)
-      localStorage.setItem('searchSavedMovies', JSON.stringify(resultSaved))
-    } else {
-      console.log('gg');
-      const search = JSON.parse(localStorage.getItem('searchSavedMovies'))
-      const result = search.filter(i => i._id !== card._id)
-        localStorage.setItem('searchSavedMovies', JSON.stringify(result))
-      }
-  })
-  .catch(err => console.log(err))
-}
 
 //состояние popup
 const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -616,52 +621,8 @@ const loginOut = () => {
           closePopup={closePopup}
           isLoading={isLoading}
         />
-        {/* <Route exact path='/'>
-          < Header 
-            position={true}
-            sandwich={<button className='Navigation-control__sandwich' type='button' onClick={handleSetIsMenuOpen}></button>}
-            // sandwich={<button className='Navigation-control__sandwich' type='button'></button>}
-            account={<Link to="/profile" className='Navigation-control__account Navigation-control__account_active' ></Link>}
-            savedMovies={<Link to="/saved-movies" className='Navigation-movies__saved'>Сохранённые фильмы</Link>}
-            movies={<Link to="/movies" className='Navigation-movies__movie'>Фильмы</Link>}
-            isLoggedIn={isLoggedIn}
-            aboutProject={<img className='Header-logo Header-logo_deactive' src={logo} alt='Логотип' />}
-            register={<Link to="/signup" className='Navigation-control__register'>Регистрация</Link>}
-            login={<NavLink to="/signin" className='Navigation-control__text'>Войти</NavLink>}
-          />
-          < Promo
-            closePopup={closePopup}
-            project={<a href='#about-project' className='NavTab-link'>О проекте</a>}
-            techs={<a href='#technologies' className='NavTab-link'>Технологии</a>}
-            student={<a href='#student' className='NavTab-link'>Студент</a>}
-          />
-          <AboutProject
-            aboutProject={"about-project"}
-          />
-          < Techs
-            techs={"technologies"}
-          />
-          <AboutMe
-            student={"student"}
-          />
-          < Portfolio
-            static={<a className="Portfolio-container__title" href='https://github.com/Vladimir412/how-to-learn' target="_blank" rel="noreferrer">Статичный сайт</a>}
-            adaptive={<a className="Portfolio-container__title" href='https://github.com/Vladimir412/russian-travel' target="_blank" rel="noreferrer">Адаптивный сайт</a>}
-            singleApp={<a className="Portfolio-container__title" href='https://github.com/Vladimir412/react-mesto-api-full' target="_blank" rel="noreferrer">Одностраничное приложение</a>}
-          />
-          < Footer />
-          <Popup
-              sandwichMenu={sandwichMenu}
-              onClosePopup={closePopup}
-              aboutProject={<Link to="/" className='popup-container__title'>Главная</Link>}
-              savedMovies={<Link to="/saved-movies" className='popup-container__saved-movies'>Сохранённые фильмы</Link>}
-              movies={<Link to="/movies" className='popup-container__movies'>Фильмы</Link>}
-              account={<Link to="/profile" className='popup-container__account'></Link>}
-          />
-        </Route> */}
         <Route path='*'>
           <Error404
-            // return={<Link to="/" className='Error404-button' >Назад</Link>}
           />
         </Route>
       </Switch>

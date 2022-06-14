@@ -5,7 +5,6 @@ const Error404 = () => {
     const history = useHistory()
 
     const back = () => {
-        console.log('click');
         history.goBack()
     }
     
@@ -19,7 +18,6 @@ const Error404 = () => {
             Страница не найдена
             </h3>
             <h2 className='Error404-button' onClick={back}>Назад</h2>
-            {/* {props.return} */}
         </section>
     )
 }
