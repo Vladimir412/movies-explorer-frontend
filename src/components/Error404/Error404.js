@@ -1,6 +1,12 @@
+import { useHistory } from 'react-router-dom';
 import './Error404.css';
 
-const Error404 = (props) => {
+const Error404 = () => {
+    const history = useHistory()
+
+    const back = () => {
+        history.goBack()
+    }
     
 
     return (
@@ -11,7 +17,7 @@ const Error404 = (props) => {
             <h3 className='Error404-subtitle'>
             Страница не найдена
             </h3>
-            {props.return}
+            <h2 className='Error404-button' onClick={back}>Назад</h2>
         </section>
     )
 }

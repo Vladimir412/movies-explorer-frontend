@@ -6,10 +6,11 @@ import './Popup.css';
 const Popup = (props) => {
 
 
+
     return (
-        <section className='popup'>
+        <section className={props.sandwichMenu}>
             <div className='popup-container'>
-                <button className='popup-container__button-close'></button>
+                <button className='popup-container__button-close' onClick={props.onClosePopup}></button>
                 {props.aboutProject}
                 {props.movies}
                 {props.savedMovies}

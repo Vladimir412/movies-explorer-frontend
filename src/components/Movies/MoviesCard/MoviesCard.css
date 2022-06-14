@@ -25,6 +25,8 @@
     margin-top: 10px;
     margin-left: 13px;
     margin-bottom: 5px;
+    max-width: 280px;
+    /* text-overflow: ellipsis; */
 }
 
 .MoviesCard-info__duration {
@@ -80,3 +82,14 @@
     margin-top: 13px;
 }
 
+.MoviesCard-trailer {
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    transition: all .2s;
+}
+
+.MoviesCard-trailer:hover {
+    opacity: .7;
+    cursor: pointer;
+}

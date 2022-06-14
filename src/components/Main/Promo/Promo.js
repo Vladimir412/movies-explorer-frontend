@@ -2,9 +2,12 @@ import './Promo.css';
 import './Promo768.css';
 import './Promo320.css';
 import NavTab from '../NavTab/NavTab';
+import { useEffect } from 'react';
 
 const Promo = (props) => {
-
+    useEffect(() => {
+        props.closePopup()
+    }, [])
 
     return (
         <div className="Promo">
